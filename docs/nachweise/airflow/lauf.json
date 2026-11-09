@@ -1,0 +1,42 @@
+{
+  "dag_id": "mtg_cards",
+  "run_id": "scheduled__2026-11-02T05:00:00+00:00",
+  "source_run_id": "airflow_ad6095f4d0fe289c92ad2548",
+  "replay_started_at": "2026-11-04T17:02:11.121397+00:00",
+  "mode": "Replay of completed full download; no new API requests",
+  "state": "success",
+  "elapsed_seconds": 1423.065,
+  "replay_finished_at": "2026-11-04T17:25:54.186598+00:00",
+  "tasks": [
+    {
+      "task_id": "fetch_to_hdfs_raw",
+      "state": "success",
+      "start_date": "2026-11-04T17:02:16.054439+00:00",
+      "end_date": "2026-11-04T17:04:39.440112+00:00"
+    },
+    {
+      "task_id": "transform_to_hdfs_final",
+      "state": "success",
+      "start_date": "2026-11-04T17:12:00.375729+00:00",
+      "end_date": "2026-11-04T17:14:25.492078+00:00"
+    },
+    {
+      "task_id": "validate_final",
+      "state": "success",
+      "start_date": "2026-11-04T17:14:29.956628+00:00",
+      "end_date": "2026-11-04T17:15:08.444099+00:00"
+    },
+    {
+      "task_id": "load_database",
+      "state": "success",
+      "start_date": "2026-11-04T17:15:12.888522+00:00",
+      "end_date": "2026-11-04T17:24:51.336406+00:00"
+    },
+    {
+      "task_id": "validate_database",
+      "state": "success",
+      "start_date": "2026-11-04T17:24:55.721825+00:00",
+      "end_date": "2026-11-04T17:25:50.908412+00:00"
+    }
+  ]
+}

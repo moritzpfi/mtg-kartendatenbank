@@ -1,0 +1,70 @@
+test_changed_source_total_is_rejected (tests.test_core.CoreTests.test_changed_source_total_is_rejected) ... ok
+test_full_card_payload_preserves_unknown_and_nested_fields (tests.test_core.CoreTests.test_full_card_payload_preserves_unknown_and_nested_fields) ... ok
+test_hdfs_uses_the_datanode_redirect (tests.test_core.CoreTests.test_hdfs_uses_the_datanode_redirect) ... ok
+test_image_urls_require_the_known_https_source (tests.test_core.CoreTests.test_image_urls_require_the_known_https_source) ... ok
+test_literal_search_wildcards (tests.test_core.CoreTests.test_literal_search_wildcards) ... ok
+test_pagination_and_original_bytes (tests.test_core.CoreTests.test_pagination_and_original_bytes) ... ok
+test_quality_counts_missing_values_and_distinguishes_type_conversion (tests.test_core.CoreTests.test_quality_counts_missing_values_and_distinguishes_type_conversion) ... ok
+test_quality_flags_replacement_and_control_characters (tests.test_core.CoreTests.test_quality_flags_replacement_and_control_characters) ... ok
+test_quality_report_calculates_percentages_for_each_run (tests.test_core.CoreTests.test_quality_report_calculates_percentages_for_each_run) ... ok
+test_raw_audit_rejects_modified_hdfs_bytes (tests.test_core.CoreTests.test_raw_audit_rejects_modified_hdfs_bytes) ... ok
+test_resume_preserves_already_downloaded_pages (tests.test_core.CoreTests.test_resume_preserves_already_downloaded_pages) ... ok
+test_run_id_cannot_escape_its_directory (tests.test_core.CoreTests.test_run_id_cannot_escape_its_directory) ... ok
+test_transient_http_failure_is_retried (tests.test_core.CoreTests.test_transient_http_failure_is_retried) ... Page 1 failed (503 Server Error: None for url: https://example.invalid/cards); retry in 60s
+ok
+test_truncated_snapshot_is_rejected (tests.test_core.CoreTests.test_truncated_snapshot_is_rejected) ... ok
+test_detail_endpoint_preserves_all_source_fields_and_handles_missing_cards (tests.test_web.WebTests.test_detail_endpoint_preserves_all_source_fields_and_handles_missing_cards) ... ok
+test_literals_and_input_are_safe (tests.test_web.WebTests.test_literals_and_input_are_safe) ... ok
+test_one_search_matches_name_artist_and_middle_of_sentence (tests.test_web.WebTests.test_one_search_matches_name_artist_and_middle_of_sentence) ... ok
+test_results_stay_bounded (tests.test_web.WebTests.test_results_stay_bounded) ... ok
+test_start_page_and_card_preview_markup (tests.test_web.WebTests.test_start_page_and_card_preview_markup) ... ok
+test_angle_brackets_are_only_a_review_signal (tests.test_text_audit.TextAuditTests.test_angle_brackets_are_only_a_review_signal) ... ok
+test_c1_controls_in_translation_are_detected (tests.test_text_audit.TextAuditTests.test_c1_controls_in_translation_are_detected) ... ok
+test_encoded_entities_and_invisible_characters_are_separate (tests.test_text_audit.TextAuditTests.test_encoded_entities_and_invisible_characters_are_separate) ... ok
+test_mtg_content_and_multilingual_text_are_preserved (tests.test_text_audit.TextAuditTests.test_mtg_content_and_multilingual_text_are_preserved) ... ok
+test_nested_strings_use_stable_field_paths (tests.test_text_audit.TextAuditTests.test_nested_strings_use_stable_field_paths) ... ok
+test_audit_counts_texts_and_distinct_cards_separately (tests.test_text_cleaning.TextCleaningTests.test_audit_counts_texts_and_distinct_cards_separately) ... ok
+test_missing_and_nonstring_optional_fields_are_preserved (tests.test_text_cleaning.TextCleaningTests.test_missing_and_nonstring_optional_fields_are_preserved) ... ok
+test_multiple_and_unknown_entities_are_reported_without_further_decoding (tests.test_text_cleaning.TextCleaningTests.test_multiple_and_unknown_entities_are_reported_without_further_decoding) ... ok
+test_observed_defects_and_original_preservation (tests.test_text_cleaning.TextCleaningTests.test_observed_defects_and_original_preservation) ... ok
+test_valid_symbols_and_unknown_fields_are_untouched (tests.test_text_cleaning.TextCleaningTests.test_valid_symbols_and_unknown_fields_are_untouched) ... ok
+test_conflicting_ids_prevent_publication (tests.test_integration.IntegrationTests.test_conflicting_ids_prevent_publication) ... Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+26/11/04 19:22:07 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+ok
+test_partial_batch_publication_rolls_back_every_insert (tests.test_integration.IntegrationTests.test_partial_batch_publication_rolls_back_every_insert) ... ok
+test_publication_rolls_back_and_repeats_safely (tests.test_integration.IntegrationTests.test_publication_rolls_back_and_repeats_safely) ... ok
+test_search_fields_escaping_and_input_validation (tests.test_integration.IntegrationTests.test_search_fields_escaping_and_input_validation) ... ok
+test_transform_real_hdfs_and_mysql_with_edge_cases (tests.test_integration.IntegrationTests.test_transform_real_hdfs_and_mysql_with_edge_cases) ... /usr/local/lib/python3.11/socket.py:789: ResourceWarning: unclosed <socket.socket fd=10, family=2, type=1, proto=6, laddr=('127.0.0.1', 58278), raddr=('127.0.0.1', 39385)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/local/lib/python3.11/socket.py:789: ResourceWarning: unclosed <socket.socket fd=10, family=2, type=1, proto=6, laddr=('127.0.0.1', 43662), raddr=('127.0.0.1', 33849)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/local/lib/python3.11/socket.py:789: ResourceWarning: unclosed <socket.socket fd=9, family=2, type=1, proto=6, laddr=('127.0.0.1', 35420), raddr=('127.0.0.1', 44391)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/local/lib/python3.11/socket.py:789: ResourceWarning: unclosed <socket.socket fd=9, family=2, type=1, proto=6, laddr=('127.0.0.1', 33824), raddr=('127.0.0.1', 42891)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/local/lib/python3.11/socket.py:789: ResourceWarning: unclosed <socket.socket fd=9, family=2, type=1, proto=6, laddr=('127.0.0.1', 37414), raddr=('127.0.0.1', 34713)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/local/lib/python3.11/socket.py:789: ResourceWarning: unclosed <socket.socket fd=9, family=2, type=1, proto=6, laddr=('127.0.0.1', 33062), raddr=('127.0.0.1', 37143)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/local/lib/python3.11/socket.py:789: ResourceWarning: unclosed <socket.socket fd=9, family=2, type=1, proto=6, laddr=('127.0.0.1', 33502), raddr=('127.0.0.1', 34913)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/local/lib/python3.11/socket.py:789: ResourceWarning: unclosed <socket.socket fd=9, family=2, type=1, proto=6, laddr=('127.0.0.1', 47304), raddr=('127.0.0.1', 43997)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/local/lib/python3.11/socket.py:789: ResourceWarning: unclosed <socket.socket fd=9, family=2, type=1, proto=6, laddr=('127.0.0.1', 39894), raddr=('127.0.0.1', 34477)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+
+----------------------------------------------------------------------
+Ran 34 tests in 45.446s
+
+OK

@@ -1,0 +1,1 @@
+"""The MTG search application."""

@@ -1,0 +1,65 @@
+{
+  "created_at": "20261104T165534Z",
+  "run_id": "airflow_ad6095f4d0fe289c92ad2548",
+  "backup_directory": "work/backups/before_text_cleaning_20261104T165534Z",
+  "backup_complete": true,
+  "dag_was_paused": false,
+  "previous_database": {
+    "count": 93643,
+    "sha256": "a032ba937cb3ca13b30c26670b79e7c0616dfc218057bade43089162bce8d834"
+  },
+  "verified_raw_pages": 937,
+  "hdfs_final_backup": "/user/hadoop/mtg/archive/before_text_cleaning_20261104T165534Z/final/airflow_ad6095f4d0fe289c92ad2548",
+  "files": [
+    {
+      "file": "_SUCCESS",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "_summary.json",
+      "bytes": 4052,
+      "sha256": "e8ac3a6b2c5057edd84da56feccba3bd89438d74f41ac68b237731994c92d13a"
+    },
+    {
+      "file": "part-00000-54861930-99ee-484b-b8b9-1c0832ebc40c-c000.snappy.parquet",
+      "bytes": 20076711,
+      "sha256": "19c23cbd1bebf3b3af502d649d6012fdbb872c2e0dd85110ad183315ac3e84a8"
+    },
+    {
+      "file": "part-00001-54861930-99ee-484b-b8b9-1c0832ebc40c-c000.snappy.parquet",
+      "bytes": 20288172,
+      "sha256": "45c2d9c4ddf8b5e5135a591a7cf09721f5c87883e1e20e3abaf3ab054cd1c641"
+    },
+    {
+      "file": "part-00002-54861930-99ee-484b-b8b9-1c0832ebc40c-c000.snappy.parquet",
+      "bytes": 20071898,
+      "sha256": "6b822227c74fb8d94b6faba54454d216bacb039987585e220994dea691a3fd40"
+    },
+    {
+      "file": "part-00003-54861930-99ee-484b-b8b9-1c0832ebc40c-c000.snappy.parquet",
+      "bytes": 20176955,
+      "sha256": "5e22319952964018c3901edc88ce2f20b2b2bd1c838e977cc34a475411d73cd6"
+    },
+    {
+      "file": "part-00004-54861930-99ee-484b-b8b9-1c0832ebc40c-c000.snappy.parquet",
+      "bytes": 20076107,
+      "sha256": "16f264c93858b0bbf37eca8caba5bf1dcd71a83cd3e889b9a0a5dd8cbba7c7d8"
+    },
+    {
+      "file": "part-00005-54861930-99ee-484b-b8b9-1c0832ebc40c-c000.snappy.parquet",
+      "bytes": 19850631,
+      "sha256": "390ae070949cd924ff29014e9b76b85c89fabebe015cfe15dfc19e4f2096ef6f"
+    },
+    {
+      "file": "part-00006-54861930-99ee-484b-b8b9-1c0832ebc40c-c000.snappy.parquet",
+      "bytes": 20036404,
+      "sha256": "f6c3c4eb5bdc31fe890381afdedfa70dd2b61a3351a195151c011eb0cd0cb3d4"
+    },
+    {
+      "file": "part-00007-54861930-99ee-484b-b8b9-1c0832ebc40c-c000.snappy.parquet",
+      "bytes": 20260960,
+      "sha256": "0a2906b39498ba3b0ed6f7617f2ee2b61a38031dfeffa83e73541714afe3bc16"
+    }
+  ]
+}

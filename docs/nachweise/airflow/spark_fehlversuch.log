@@ -1,0 +1,278 @@
+airflow-1  | 
+airflow-1  | [2026-11-04T17:02:12.075+0000] {configuration.py:2112} INFO - Creating new FAB webserver config file in: /opt/airflow/webserver_config.py
+airflow-1  |   ____________       _____________
+airflow-1  |  ____    |__( )_________  __/__  /________      __
+airflow-1  | ____  /| |_  /__  ___/_  /_ __  /_  __ \_ | /| / /
+airflow-1  | ___  ___ |  / _  /   _  __/ _  / / /_/ /_ |/ |/ /
+airflow-1  |  _/_/  |_/_/  /_/    /_/    /_/  \____/____/|__/
+airflow-1  | [2026-11-04T17:02:12.313+0000] {executor_loader.py:258} INFO - Loaded executor: SequentialExecutor
+airflow-1  | [2026-11-04 17:02:12 +0000] [32] [INFO] Starting gunicorn 23.0.0
+airflow-1  | [2026-11-04 17:02:12 +0000] [32] [INFO] Listening at: http://[::]:8793 (32)
+airflow-1  | [2026-11-04 17:02:12 +0000] [32] [INFO] Using worker: sync
+airflow-1  | [2026-11-04 17:02:12 +0000] [33] [INFO] Booting worker with pid: 33
+airflow-1  | [2026-11-04T17:02:12.549+0000] {scheduler_job_runner.py:950} INFO - Starting the scheduler
+airflow-1  | [2026-11-04T17:02:12.550+0000] {scheduler_job_runner.py:957} INFO - Processing each file at most -1 times
+airflow-1  | [2026-11-04T17:02:12.561+0000] {manager.py:174} INFO - Launched DagFileProcessorManager with pid: 34
+airflow-1  | [2026-11-04T17:02:12.564+0000] {scheduler_job_runner.py:1949} INFO - Adopting or resetting orphaned tasks for active dag runs
+airflow-1  | [2026-11-04T17:02:12.568+0000] {settings.py:63} INFO - Configured default timezone UTC
+airflow-1  | [2026-11-04T17:02:12.605+0000] {manager.py:406} WARNING - Because we cannot use more than 1 thread (parsing_processes = 2) when using sqlite. So we set parallelism to 1.
+airflow-1  | [2026-11-04 17:02:12 +0000] [35] [INFO] Booting worker with pid: 35
+airflow-1  | [2026-11-04T17:02:12.970+0000] {scheduler_job_runner.py:435} INFO - 1 tasks up for execution:
+airflow-1  | 	<TaskInstance: mtg_cards.fetch_to_hdfs_raw scheduled__2026-11-02T05:00:00+00:00 [scheduled]>
+airflow-1  | [2026-11-04T17:02:12.971+0000] {scheduler_job_runner.py:507} INFO - DAG mtg_cards has 0/16 running and queued tasks
+airflow-1  | [2026-11-04T17:02:12.972+0000] {scheduler_job_runner.py:646} INFO - Setting the following tasks to queued state:
+airflow-1  | 	<TaskInstance: mtg_cards.fetch_to_hdfs_raw scheduled__2026-11-02T05:00:00+00:00 [scheduled]>
+airflow-1  | [2026-11-04T17:02:12.974+0000] {scheduler_job_runner.py:748} INFO - Trying to enqueue tasks: [<TaskInstance: mtg_cards.fetch_to_hdfs_raw scheduled__2026-11-02T05:00:00+00:00 [scheduled]>] for executor: SequentialExecutor(parallelism=32)
+airflow-1  | [2026-11-04T17:02:12.975+0000] {scheduler_job_runner.py:692} INFO - Sending TaskInstanceKey(dag_id='mtg_cards', task_id='fetch_to_hdfs_raw', run_id='scheduled__2026-11-02T05:00:00+00:00', try_number=2, map_index=-1) to SequentialExecutor with priority 5 and queue default
+airflow-1  | [2026-11-04T17:02:12.975+0000] {base_executor.py:169} INFO - Adding to queue: ['airflow', 'tasks', 'run', 'mtg_cards', 'fetch_to_hdfs_raw', 'scheduled__2026-11-02T05:00:00+00:00', '--local', '--subdir', 'DAGS_FOLDER/mtg_cards.py']
+airflow-1  | [2026-11-04T17:02:12.981+0000] {sequential_executor.py:84} INFO - Executing command: ['airflow', 'tasks', 'run', 'mtg_cards', 'fetch_to_hdfs_raw', 'scheduled__2026-11-02T05:00:00+00:00', '--local', '--subdir', 'DAGS_FOLDER/mtg_cards.py']
+airflow-1  | /home/airflow/.local/lib/python3.11/site-packages/flask_limiter/extension.py:333 UserWarning: Using the in-memory storage for tracking rate limits as no storage was explicitly specified. This is not recommended for production use. See: https://flask-limiter.readthedocs.io#configuring-a-storage-backend for documentation about configuring the storage backend.
+airflow-1  | [2026-11-04T17:02:15.818+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/mtg/dags/mtg_cards.py
+airflow-1  | [2026-11-04T17:02:15.974+0000] {task_command.py:467} INFO - Running <TaskInstance: mtg_cards.fetch_to_hdfs_raw scheduled__2026-11-02T05:00:00+00:00 [queued]> on host 8f8b03cb2734
+airflow-1  | /home/airflow/.local/lib/python3.11/site-packages/airflow/api_connexion/schemas/task_schema.py:52 ChangedInMarshmallow4Warning: `Number` field should not be instantiated. Use `Integer`, `Float`, or `Decimal` instead.
+airflow-1  | /home/airflow/.local/lib/python3.11/site-packages/airflow/api_connexion/schemas/task_schema.py:55 ChangedInMarshmallow4Warning: `Number` field should not be instantiated. Use `Integer`, `Float`, or `Decimal` instead.
+airflow-1  | /home/airflow/.local/lib/python3.11/site-packages/airflow/api_connexion/schemas/task_schema.py:59 ChangedInMarshmallow4Warning: `Number` field should not be instantiated. Use `Integer`, `Float`, or `Decimal` instead.
+airflow-1  | [2026-11-04 17:02:17 +0000] [31] [INFO] Starting gunicorn 23.0.0
+airflow-1  | [2026-11-04T17:02:26.734+0000] {providers_manager.py:287} INFO - Optional provider feature disabled when importing 'airflow.providers.google.leveldb.hooks.leveldb.LevelDBHook' from 'apache-airflow-providers-google' package
+airflow-1  | [2026-11-04 17:02:31 +0000] [31] [INFO] Listening at: http://0.0.0.0:8080 (31)
+airflow-1  | [2026-11-04 17:02:31 +0000] [31] [INFO] Using worker: sync
+airflow-1  | [2026-11-04 17:02:31 +0000] [63] [INFO] Booting worker with pid: 63
+airflow-1  | [2026-11-04 17:02:31 +0000] [64] [INFO] Booting worker with pid: 64
+airflow-1  | [2026-11-04 17:02:31 +0000] [65] [INFO] Booting worker with pid: 65
+airflow-1  | [2026-11-04 17:02:31 +0000] [66] [INFO] Booting worker with pid: 66
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:02:40 +0000] "GET /health HTTP/1.1" 200 283 "-" "curl/7.88.1"
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:03:00 +0000] "GET /health HTTP/1.1" 200 285 "-" "curl/7.88.1"
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:03:20 +0000] "GET /health HTTP/1.1" 200 285 "-" "curl/7.88.1"
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:03:40 +0000] "GET /health HTTP/1.1" 200 285 "-" "curl/7.88.1"
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:04:00 +0000] "GET /health HTTP/1.1" 200 285 "-" "curl/7.88.1"
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:04:20 +0000] "GET /health HTTP/1.1" 200 285 "-" "curl/7.88.1"
+airflow-1  | [2026-11-04T17:04:40.175+0000] {scheduler_job_runner.py:776} INFO - Received executor event with state success for task instance TaskInstanceKey(dag_id='mtg_cards', task_id='fetch_to_hdfs_raw', run_id='scheduled__2026-11-02T05:00:00+00:00', try_number=2, map_index=-1)
+airflow-1  | [2026-11-04T17:04:40.184+0000] {scheduler_job_runner.py:813} INFO - TaskInstance Finished: dag_id=mtg_cards, task_id=fetch_to_hdfs_raw, run_id=scheduled__2026-11-02T05:00:00+00:00, map_index=-1, run_start_date=2026-11-04 17:02:16.054439+00:00, run_end_date=2026-11-04 17:04:39.440112+00:00, run_duration=143.385673, state=success, executor=SequentialExecutor(parallelism=32), executor_state=success, try_number=2, max_tries=2, job_id=28, pool=default_pool, queue=default, priority_weight=5, operator=PythonOperator, queued_dttm=2026-11-04 17:02:12.973057+00:00, queued_by_job_id=27, pid=44
+airflow-1  | [2026-11-04T17:04:40.197+0000] {manager.py:293} ERROR - DagFileProcessorManager (PID=34) last sent a heartbeat 147.33 seconds ago! Restarting it
+airflow-1  | [2026-11-04T17:04:40.199+0000] {process_utils.py:132} INFO - Sending 15 to group 34. PIDs of all processes in the group: [34]
+airflow-1  | [2026-11-04T17:04:40.200+0000] {process_utils.py:87} INFO - Sending the signal 15 to group 34
+airflow-1  | [2026-11-04T17:04:40.413+0000] {process_utils.py:80} INFO - Process psutil.Process(pid=34, status='terminated', exitcode=0, started='17:02:11') (34) terminated with exit code 0
+airflow-1  | [2026-11-04T17:04:40.422+0000] {manager.py:174} INFO - Launched DagFileProcessorManager with pid: 122
+airflow-1  | [2026-11-04T17:04:40.433+0000] {settings.py:63} INFO - Configured default timezone UTC
+airflow-1  | [2026-11-04T17:04:40.460+0000] {job.py:229} INFO - Heartbeat recovered after 148.67 seconds
+airflow-1  | [2026-11-04T17:04:40.489+0000] {manager.py:406} WARNING - Because we cannot use more than 1 thread (parsing_processes = 2) when using sqlite. So we set parallelism to 1.
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:04:40 +0000] "GET /health HTTP/1.1" 200 283 "-" "curl/7.88.1"
+airflow-1  | [2026-11-04T17:04:40.836+0000] {scheduler_job_runner.py:435} INFO - 1 tasks up for execution:
+airflow-1  | 	<TaskInstance: mtg_cards.transform_to_hdfs_final scheduled__2026-11-02T05:00:00+00:00 [scheduled]>
+airflow-1  | [2026-11-04T17:04:40.837+0000] {scheduler_job_runner.py:507} INFO - DAG mtg_cards has 0/16 running and queued tasks
+airflow-1  | [2026-11-04T17:04:40.838+0000] {scheduler_job_runner.py:646} INFO - Setting the following tasks to queued state:
+airflow-1  | 	<TaskInstance: mtg_cards.transform_to_hdfs_final scheduled__2026-11-02T05:00:00+00:00 [scheduled]>
+airflow-1  | [2026-11-04T17:04:40.843+0000] {scheduler_job_runner.py:748} INFO - Trying to enqueue tasks: [<TaskInstance: mtg_cards.transform_to_hdfs_final scheduled__2026-11-02T05:00:00+00:00 [scheduled]>] for executor: SequentialExecutor(parallelism=32)
+airflow-1  | [2026-11-04T17:04:40.844+0000] {scheduler_job_runner.py:692} INFO - Sending TaskInstanceKey(dag_id='mtg_cards', task_id='transform_to_hdfs_final', run_id='scheduled__2026-11-02T05:00:00+00:00', try_number=3, map_index=-1) to SequentialExecutor with priority 4 and queue default
+airflow-1  | [2026-11-04T17:04:40.844+0000] {base_executor.py:169} INFO - Adding to queue: ['airflow', 'tasks', 'run', 'mtg_cards', 'transform_to_hdfs_final', 'scheduled__2026-11-02T05:00:00+00:00', '--local', '--subdir', 'DAGS_FOLDER/mtg_cards.py']
+airflow-1  | [2026-11-04T17:04:40.851+0000] {sequential_executor.py:84} INFO - Executing command: ['airflow', 'tasks', 'run', 'mtg_cards', 'transform_to_hdfs_final', 'scheduled__2026-11-02T05:00:00+00:00', '--local', '--subdir', 'DAGS_FOLDER/mtg_cards.py']
+airflow-1  | [2026-11-04T17:04:44.008+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/mtg/dags/mtg_cards.py
+airflow-1  | [2026-11-04T17:04:44.190+0000] {task_command.py:467} INFO - Running <TaskInstance: mtg_cards.transform_to_hdfs_final scheduled__2026-11-02T05:00:00+00:00 [queued]> on host 8f8b03cb2734
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:05:00 +0000] "GET /health HTTP/1.1" 200 283 "-" "curl/7.88.1"
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:05:20 +0000] "GET /health HTTP/1.1" 200 285 "-" "curl/7.88.1"
+airflow-1  | Setting default log level to "WARN".
+airflow-1  | To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+airflow-1  | 26/11/04 17:05:22 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:05:40 +0000] "GET /health HTTP/1.1" 200 285 "-" "curl/7.88.1"
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:06:01 +0000] "GET /health HTTP/1.1" 200 285 "-" "curl/7.88.1"
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:06:21 +0000] "GET /health HTTP/1.1" 200 285 "-" "curl/7.88.1"
+airflow-1  | 26/11/04 17:06:29 WARN MemoryStore: Not enough space to cache rdd_27_3 in memory! (computed 40.0 MiB so far)
+airflow-1  | 26/11/04 17:06:29 WARN MemoryStore: Not enough space to cache rdd_27_4 in memory! (computed 38.6 MiB so far)
+airflow-1  | 26/11/04 17:06:29 WARN MemoryStore: Not enough space to cache rdd_27_5 in memory! (computed 37.3 MiB so far)
+airflow-1  | 26/11/04 17:06:29 WARN MemoryStore: Not enough space to cache rdd_27_6 in memory! (computed 35.4 MiB so far)
+airflow-1  | 26/11/04 17:06:29 WARN MemoryStore: Not enough space to cache rdd_27_7 in memory! (computed 33.9 MiB so far)
+airflow-1  | 26/11/04 17:06:29 WARN MemoryStore: Not enough space to cache rdd_27_8 in memory! (computed 32.2 MiB so far)
+airflow-1  | 26/11/04 17:06:29 WARN MemoryStore: Not enough space to cache rdd_27_9 in memory! (computed 31.6 MiB so far)
+airflow-1  | 26/11/04 17:06:29 WARN MemoryStore: Not enough space to cache rdd_27_10 in memory! (computed 29.9 MiB so far)
+airflow-1  | 26/11/04 17:06:29 WARN MemoryStore: Not enough space to cache rdd_27_11 in memory! (computed 28.3 MiB so far)
+airflow-1  | 26/11/04 17:06:31 WARN MemoryStore: Not enough space to cache rdd_27_5 in memory! (computed 37.3 MiB so far)
+airflow-1  | 26/11/04 17:06:33 WARN MemoryStore: Not enough space to cache rdd_27_11 in memory! (computed 28.3 MiB so far)
+airflow-1  | 26/11/04 17:06:33 WARN MemoryStore: Not enough space to cache rdd_27_13 in memory! (computed 25.1 MiB so far)
+airflow-1  | 26/11/04 17:06:36 WARN MemoryStore: Not enough space to cache rdd_44_2 in memory! (computed 68.4 MiB so far)
+airflow-1  | 26/11/04 17:06:36 WARN BlockManager: Persisting block rdd_44_2 to disk instead.
+airflow-1  | 26/11/04 17:06:37 WARN MemoryStore: Not enough space to cache rdd_44_2 in memory! (computed 68.4 MiB so far)
+airflow-1  | 26/11/04 17:06:37 WARN MemoryStore: Not enough space to cache rdd_44_4 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:37 WARN BlockManager: Persisting block rdd_44_4 to disk instead.
+airflow-1  | 26/11/04 17:06:38 WARN MemoryStore: Not enough space to cache rdd_44_4 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:39 WARN MemoryStore: Not enough space to cache rdd_44_7 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:39 WARN BlockManager: Persisting block rdd_44_7 to disk instead.
+airflow-1  | 26/11/04 17:06:40 WARN MemoryStore: Not enough space to cache rdd_44_0 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:40 WARN MemoryStore: Not enough space to cache rdd_44_1 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:40 WARN MemoryStore: Not enough space to cache rdd_44_2 in memory! (computed 68.4 MiB so far)
+airflow-1  | 26/11/04 17:06:40 WARN MemoryStore: Not enough space to cache rdd_44_4 in memory! (computed 68.5 MiB so far)
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:06:41 +0000] "GET /health HTTP/1.1" 200 285 "-" "curl/7.88.1"
+airflow-1  | 26/11/04 17:06:42 WARN MemoryStore: Not enough space to cache rdd_44_0 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:42 WARN MemoryStore: Not enough space to cache rdd_44_1 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:42 WARN MemoryStore: Not enough space to cache rdd_44_2 in memory! (computed 68.4 MiB so far)
+airflow-1  | 26/11/04 17:06:42 WARN MemoryStore: Not enough space to cache rdd_44_4 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:43 WARN MemoryStore: Not enough space to cache rdd_44_0 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:43 WARN MemoryStore: Not enough space to cache rdd_44_1 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:43 WARN MemoryStore: Not enough space to cache rdd_44_2 in memory! (computed 68.4 MiB so far)
+airflow-1  | 26/11/04 17:06:43 WARN MemoryStore: Not enough space to cache rdd_44_4 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:43 WARN MemoryStore: Not enough space to cache rdd_44_1 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:43 WARN MemoryStore: Not enough space to cache rdd_44_0 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:44 WARN MemoryStore: Not enough space to cache rdd_44_4 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:44 WARN MemoryStore: Not enough space to cache rdd_44_2 in memory! (computed 68.4 MiB so far)
+airflow-1  | 26/11/04 17:06:45 WARN MemoryStore: Not enough space to cache rdd_44_0 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:45 WARN MemoryStore: Not enough space to cache rdd_44_1 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:47 WARN MemoryStore: Not enough space to cache rdd_44_2 in memory! (computed 68.4 MiB so far)
+airflow-1  | 26/11/04 17:06:48 WARN MemoryStore: Not enough space to cache rdd_44_4 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:51 WARN MemoryStore: Not enough space to cache rdd_44_1 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:51 WARN MemoryStore: Not enough space to cache rdd_44_0 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:51 WARN MemoryStore: Not enough space to cache rdd_44_2 in memory! (computed 68.4 MiB so far)
+airflow-1  | 26/11/04 17:06:51 WARN MemoryStore: Not enough space to cache rdd_44_4 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:52 WARN MemoryStore: Not enough space to cache rdd_44_1 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:52 WARN MemoryStore: Not enough space to cache rdd_44_0 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:52 WARN MemoryStore: Not enough space to cache rdd_44_2 in memory! (computed 68.4 MiB so far)
+airflow-1  | 26/11/04 17:06:52 WARN MemoryStore: Not enough space to cache rdd_44_4 in memory! (computed 68.5 MiB so far)
+airflow-1  | 26/11/04 17:06:56 WARN BlockManager: Failed to fetch remote block taskresult_1175 from [BlockManagerId(driver, localhost, 37383, None)] after 1 fetch failures. Most recent failure cause:
+airflow-1  | org.apache.spark.SparkException: Exception thrown in awaitResult: 
+airflow-1  | 	at org.apache.spark.util.SparkThreadUtils$.awaitResult(SparkThreadUtils.scala:56)
+airflow-1  | 	at org.apache.spark.util.ThreadUtils$.awaitResult(ThreadUtils.scala:310)
+airflow-1  | 	at org.apache.spark.network.BlockTransferService.fetchBlockSync(BlockTransferService.scala:103)
+airflow-1  | 	at org.apache.spark.storage.BlockManager.fetchRemoteManagedBuffer(BlockManager.scala:1172)
+airflow-1  | 	at org.apache.spark.storage.BlockManager.$anonfun$getRemoteBlock$8(BlockManager.scala:1116)
+airflow-1  | 	at scala.Option.orElse(Option.scala:447)
+airflow-1  | 	at org.apache.spark.storage.BlockManager.getRemoteBlock(BlockManager.scala:1116)
+airflow-1  | 	at org.apache.spark.storage.BlockManager.getRemoteBytes(BlockManager.scala:1256)
+airflow-1  | 	at org.apache.spark.scheduler.TaskResultGetter$$anon$3.$anonfun$run$1(TaskResultGetter.scala:88)
+airflow-1  | 	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+airflow-1  | 	at org.apache.spark.util.Utils$.logUncaughtExceptions(Utils.scala:1928)
+airflow-1  | 	at org.apache.spark.scheduler.TaskResultGetter$$anon$3.run(TaskResultGetter.scala:63)
+airflow-1  | 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+airflow-1  | 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+airflow-1  | 	at java.base/java.lang.Thread.run(Thread.java:840)
+airflow-1  | Caused by: java.util.concurrent.ExecutionException: Boxed Error
+airflow-1  | 	at scala.concurrent.impl.Promise$.resolver(Promise.scala:87)
+airflow-1  | 	at scala.concurrent.impl.Promise$.scala$concurrent$impl$Promise$$resolveTry(Promise.scala:79)
+airflow-1  | 	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:284)
+airflow-1  | 	at scala.concurrent.Promise.complete(Promise.scala:53)
+airflow-1  | 	at scala.concurrent.Promise.complete$(Promise.scala:52)
+airflow-1  | 	at scala.concurrent.impl.Promise$DefaultPromise.complete(Promise.scala:187)
+airflow-1  | 	at scala.concurrent.Promise.failure(Promise.scala:104)
+airflow-1  | 	at scala.concurrent.Promise.failure$(Promise.scala:104)
+airflow-1  | 	at scala.concurrent.impl.Promise$DefaultPromise.failure(Promise.scala:187)
+airflow-1  | 	at org.apache.spark.network.BlockTransferService$$anon$1.onBlockFetchSuccess(BlockTransferService.scala:98)
+airflow-1  | 	at org.apache.spark.network.shuffle.BlockFetchingListener.onBlockTransferSuccess(BlockFetchingListener.java:37)
+airflow-1  | 	at org.apache.spark.network.BlockTransferService$$anon$1.onBlockTransferSuccess(BlockTransferService.scala:81)
+airflow-1  | 	at org.apache.spark.network.shuffle.RetryingBlockTransferor$RetryingBlockTransferListener.handleBlockTransferSuccess(RetryingBlockTransferor.java:266)
+airflow-1  | 	at org.apache.spark.network.shuffle.RetryingBlockTransferor$RetryingBlockTransferListener.onBlockFetchSuccess(RetryingBlockTransferor.java:302)
+airflow-1  | 	at org.apache.spark.network.shuffle.OneForOneBlockFetcher$ChunkCallback.onSuccess(OneForOneBlockFetcher.java:286)
+airflow-1  | 	at org.apache.spark.network.client.TransportResponseHandler.handle(TransportResponseHandler.java:172)
+airflow-1  | 	at org.apache.spark.network.server.TransportChannelHandler.channelRead0(TransportChannelHandler.java:142)
+airflow-1  | 	at org.apache.spark.network.server.TransportChannelHandler.channelRead0(TransportChannelHandler.java:53)
+airflow-1  | 	at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:99)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+airflow-1  | 	at io.netty.handler.timeout.IdleStateHandler.channelRead(IdleStateHandler.java:286)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+airflow-1  | 	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+airflow-1  | 	at org.apache.spark.network.util.TransportFrameDecoder.channelRead(TransportFrameDecoder.java:102)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+airflow-1  | 	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1410)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:440)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+airflow-1  | 	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:919)
+airflow-1  | 	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:166)
+airflow-1  | 	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:788)
+airflow-1  | 	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724)
+airflow-1  | 	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650)
+airflow-1  | 	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562)
+airflow-1  | 	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+airflow-1  | 	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+airflow-1  | 	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+airflow-1  | 	... 1 more
+airflow-1  | Caused by: java.lang.OutOfMemoryError: Java heap space
+airflow-1  | 	at java.base/java.nio.HeapByteBuffer.<init>(HeapByteBuffer.java:64)
+airflow-1  | 	at java.base/java.nio.ByteBuffer.allocate(ByteBuffer.java:363)
+airflow-1  | 	at org.apache.spark.network.BlockTransferService$$anon$1.onBlockFetchSuccess(BlockTransferService.scala:93)
+airflow-1  | 	at org.apache.spark.network.shuffle.BlockFetchingListener.onBlockTransferSuccess(BlockFetchingListener.java:37)
+airflow-1  | 	at org.apache.spark.network.BlockTransferService$$anon$1.onBlockTransferSuccess(BlockTransferService.scala:81)
+airflow-1  | 	at org.apache.spark.network.shuffle.RetryingBlockTransferor$RetryingBlockTransferListener.handleBlockTransferSuccess(RetryingBlockTransferor.java:266)
+airflow-1  | 	at org.apache.spark.network.shuffle.RetryingBlockTransferor$RetryingBlockTransferListener.onBlockFetchSuccess(RetryingBlockTransferor.java:302)
+airflow-1  | 	at org.apache.spark.network.shuffle.OneForOneBlockFetcher$ChunkCallback.onSuccess(OneForOneBlockFetcher.java:286)
+airflow-1  | 	at org.apache.spark.network.client.TransportResponseHandler.handle(TransportResponseHandler.java:172)
+airflow-1  | 	at org.apache.spark.network.server.TransportChannelHandler.channelRead0(TransportChannelHandler.java:142)
+airflow-1  | 	at org.apache.spark.network.server.TransportChannelHandler.channelRead0(TransportChannelHandler.java:53)
+airflow-1  | 	at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:99)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+airflow-1  | 	at io.netty.handler.timeout.IdleStateHandler.channelRead(IdleStateHandler.java:286)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+airflow-1  | 	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+airflow-1  | 	at org.apache.spark.network.util.TransportFrameDecoder.channelRead(TransportFrameDecoder.java:102)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+airflow-1  | 	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1410)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:440)
+airflow-1  | 	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+airflow-1  | 	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:919)
+airflow-1  | 	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:166)
+airflow-1  | 26/11/04 17:06:56 WARN TaskSetManager: Lost task 0.0 in stage 44.0 (TID 1175) (localhost executor driver): TaskResultLost (result lost from block manager)
+airflow-1  | 26/11/04 17:06:56 ERROR TaskSetManager: Task 0 in stage 44.0 failed 1 times; aborting job
+airflow-1  | 26/11/04 17:06:56 ERROR Utils: Aborting task
+airflow-1  | org.apache.spark.SparkException: Exception thrown in awaitResult: 
+airflow-1  | 	at org.apache.spark.util.SparkThreadUtils$.awaitResult(SparkThreadUtils.scala:56)
+airflow-1  | 	at org.apache.spark.util.ThreadUtils$.awaitResult(ThreadUtils.scala:310)
+airflow-1  | 	at org.apache.spark.api.python.PythonRDD$.$anonfun$toLocalIteratorAndServe$2(PythonRDD.scala:257)
+airflow-1  | 	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+airflow-1  | 	at org.apache.spark.util.Utils$.tryWithSafeFinallyAndFailureCallbacks(Utils.scala:1397)
+airflow-1  | 	at org.apache.spark.api.python.PythonRDD$.$anonfun$toLocalIteratorAndServe$1(PythonRDD.scala:275)
+airflow-1  | 	at org.apache.spark.api.python.PythonRDD$.$anonfun$toLocalIteratorAndServe$1$adapted(PythonRDD.scala:226)
+airflow-1  | 	at org.apache.spark.security.SocketFuncServer.handleConnection(SocketAuthServer.scala:114)
+airflow-1  | 	at org.apache.spark.security.SocketFuncServer.handleConnection(SocketAuthServer.scala:108)
+airflow-1  | 	at org.apache.spark.security.SocketAuthServer$$anon$1.$anonfun$run$4(SocketAuthServer.scala:69)
+airflow-1  | 	at scala.util.Try$.apply(Try.scala:213)
+airflow-1  | 	at org.apache.spark.security.SocketAuthServer$$anon$1.run(SocketAuthServer.scala:69)
+airflow-1  | Caused by: org.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 44.0 failed 1 times, most recent failure: Lost task 0.0 in stage 44.0 (TID 1175) (localhost executor driver): TaskResultLost (result lost from block manager)
+airflow-1  | Driver stacktrace:
+airflow-1  | 	at org.apache.spark.scheduler.DAGScheduler.failJobAndIndependentStages(DAGScheduler.scala:2856)
+airflow-1  | 	at org.apache.spark.scheduler.DAGScheduler.$anonfun$abortStage$2(DAGScheduler.scala:2792)
+airflow-1  | 	at org.apache.spark.scheduler.DAGScheduler.$anonfun$abortStage$2$adapted(DAGScheduler.scala:2791)
+airflow-1  | 	at scala.collection.mutable.ResizableArray.foreach(ResizableArray.scala:62)
+airflow-1  | 	at scala.collection.mutable.ResizableArray.foreach$(ResizableArray.scala:55)
+airflow-1  | 	at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:49)
+airflow-1  | 	at org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:2791)
+airflow-1  | 	at org.apache.spark.scheduler.DAGScheduler.$anonfun$handleTaskSetFailed$1(DAGScheduler.scala:1247)
+airflow-1  | 	at org.apache.spark.scheduler.DAGScheduler.$anonfun$handleTaskSetFailed$1$adapted(DAGScheduler.scala:1247)
+airflow-1  | 	at scala.Option.foreach(Option.scala:407)
+airflow-1  | 	at org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:1247)
+airflow-1  | 	at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:3060)
+airflow-1  | 	at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2994)
+airflow-1  | 	at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2983)
+airflow-1  | 	at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:49)
+airflow-1  | [2026-11-04T17:06:58.222+0000] {scheduler_job_runner.py:776} INFO - Received executor event with state success for task instance TaskInstanceKey(dag_id='mtg_cards', task_id='transform_to_hdfs_final', run_id='scheduled__2026-11-02T05:00:00+00:00', try_number=3, map_index=-1)
+airflow-1  | [2026-11-04T17:06:58.228+0000] {scheduler_job_runner.py:813} INFO - TaskInstance Finished: dag_id=mtg_cards, task_id=transform_to_hdfs_final, run_id=scheduled__2026-11-02T05:00:00+00:00, map_index=-1, run_start_date=2026-11-04 17:04:44.238893+00:00, run_end_date=2026-11-04 17:06:57.368616+00:00, run_duration=133.129723, state=up_for_retry, executor=SequentialExecutor(parallelism=32), executor_state=success, try_number=3, max_tries=3, job_id=29, pool=default_pool, queue=default, priority_weight=4, operator=PythonOperator, queued_dttm=2026-11-04 17:04:40.838828+00:00, queued_by_job_id=27, pid=137
+airflow-1  | [2026-11-04T17:06:58.240+0000] {manager.py:293} ERROR - DagFileProcessorManager (PID=122) last sent a heartbeat 137.47 seconds ago! Restarting it
+airflow-1  | [2026-11-04T17:06:58.243+0000] {process_utils.py:132} INFO - Sending 15 to group 122. PIDs of all processes in the group: [122]
+airflow-1  | [2026-11-04T17:06:58.243+0000] {process_utils.py:87} INFO - Sending the signal 15 to group 122
+airflow-1  | [2026-11-04T17:06:58.498+0000] {process_utils.py:80} INFO - Process psutil.Process(pid=122, status='terminated', exitcode=0, started='17:04:39') (122) terminated with exit code 0
+airflow-1  | [2026-11-04T17:06:58.509+0000] {manager.py:174} INFO - Launched DagFileProcessorManager with pid: 766
+airflow-1  | [2026-11-04T17:06:58.519+0000] {settings.py:63} INFO - Configured default timezone UTC
+airflow-1  | [2026-11-04T17:06:58.539+0000] {job.py:229} INFO - Heartbeat recovered after 138.09 seconds
+airflow-1  | [2026-11-04T17:06:58.568+0000] {manager.py:406} WARNING - Because we cannot use more than 1 thread (parsing_processes = 2) when using sqlite. So we set parallelism to 1.
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:07:01 +0000] "GET /health HTTP/1.1" 200 283 "-" "curl/7.88.1"
+airflow-1  | [2026-11-04T17:07:12.648+0000] {scheduler_job_runner.py:1949} INFO - Adopting or resetting orphaned tasks for active dag runs
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:07:21 +0000] "GET /health HTTP/1.1" 200 283 "-" "curl/7.88.1"
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:07:41 +0000] "GET /health HTTP/1.1" 200 283 "-" "curl/7.88.1"
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:08:01 +0000] "GET /health HTTP/1.1" 200 283 "-" "curl/7.88.1"
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:08:21 +0000] "GET /health HTTP/1.1" 200 283 "-" "curl/7.88.1"
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:08:41 +0000] "GET /health HTTP/1.1" 200 283 "-" "curl/7.88.1"
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:09:01 +0000] "GET /health HTTP/1.1" 200 283 "-" "curl/7.88.1"
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:09:21 +0000] "GET /health HTTP/1.1" 200 283 "-" "curl/7.88.1"
+airflow-1  | 127.0.0.1 - - [04/Nov/2026:17:09:42 +0000] "GET /health HTTP/1.1" 200 283 "-" "curl/7.88.1"

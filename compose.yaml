@@ -1,0 +1,101 @@
+name: mtg-api
+
+x-app: &app
+  image: mtg-api-app:1
+  build: .
+  env_file: .env
+  environment: &environment
+    AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    AIRFLOW__CORE__DAGS_FOLDER: /opt/mtg/dags
+    AIRFLOW__CORE__FERNET_KEY: ${AIRFLOW_FERNET_KEY:?Run python3 scripts/configure.py first}
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////opt/airflow/metadata/airflow.db
+    AIRFLOW__LOGGING__BASE_LOG_FOLDER: /opt/airflow/metadata/logs
+    AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_WEBSERVER_SECRET_KEY:?Run configure.py first}
+    AIRFLOW__WEBSERVER__EXPOSE_CONFIG: 'false'
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+  volumes:
+    - work:/opt/mtg/work
+    - airflow:/opt/airflow/metadata
+  init: true
+
+services:
+  hdfs:
+    image: apache/hadoop:3.3.6
+    user: root
+    hostname: hdfs
+    entrypoint: ["/usr/local/bin/dumb-init", "--", "bash", "/opt/mtg/infra/start_hdfs.sh"]
+    environment:
+      HADOOP_HOME: /opt/hadoop
+      HADOOP_CONF_DIR: /etc/mtg-hadoop
+    volumes:
+      - hdfs:/data
+      - ./infra/start_hdfs.sh:/opt/mtg/infra/start_hdfs.sh:ro
+      - ./infra/hadoop:/etc/mtg-hadoop:ro
+    ports:
+      - "127.0.0.1:${HDFS_HTTP_PORT:-19870}:9870"
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/hadoop/bin/hdfs dfsadmin -safemode get | grep -q 'OFF' && /opt/hadoop/bin/hdfs dfsadmin -report | grep -q 'Live datanodes (1)'"]
+      interval: 10s
+      timeout: 10s
+      retries: 18
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.4.4
+    command: ["--innodb-buffer-pool-size=2G"]
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Run configure.py first}
+      MYSQL_DATABASE: mtg
+      MYSQL_USER: mtg
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Run configure.py first}
+    volumes:
+      - mysql:/var/lib/mysql
+      - ./infra/init_mysql.sh:/docker-entrypoint-initdb.d/10-mtg-test.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+
+  airflow-init:
+    <<: *app
+    command: ["python", "infra/init_airflow.py"]
+    depends_on:
+      mysql: {condition: service_healthy}
+      hdfs: {condition: service_healthy}
+
+  airflow:
+    <<: *app
+    command: ["bash", "infra/start_airflow.sh"]
+    ports:
+      - "127.0.0.1:${AIRFLOW_PORT:-18080}:8080"
+    depends_on:
+      airflow-init: {condition: service_completed_successfully}
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent http://localhost:8080/health | grep -q healthy"]
+      interval: 20s
+      timeout: 10s
+      retries: 15
+    restart: unless-stopped
+
+  web:
+    <<: *app
+    command: ["bash", "-c", "exec gunicorn --bind 0.0.0.0:5000 --workers 2 --access-logfile - web.app:app"]
+    ports:
+      - "127.0.0.1:${WEB_PORT:-15000}:5000"
+    depends_on:
+      airflow-init: {condition: service_completed_successfully}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  hdfs:
+  mysql:
+  airflow:
+  work:

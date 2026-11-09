@@ -1,0 +1,13 @@
+{
+  "run_id": "airflow_ad6095f4d0fe289c92ad2548",
+  "test_database": false,
+  "count": 93643,
+  "sha256": "6fd429ff102969109804ca9bf55b0f2e95012cb3841a0cdfcf29b0ea8a51f286",
+  "field_counts": {
+    "empty_card_text": 1095,
+    "empty_artist": 9,
+    "null_multiverseid": 29835,
+    "with_image_url": 63808,
+    "without_image_url": 29835
+  }
+}

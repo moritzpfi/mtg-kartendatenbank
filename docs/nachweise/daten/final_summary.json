@@ -1,0 +1,398 @@
+{
+  "run_id": "airflow_ad6095f4d0fe289c92ad2548",
+  "development": false,
+  "source": "https://api.magicthegathering.io/v1/cards",
+  "source_total_counts": [
+    93643
+  ],
+  "source_pages": 937,
+  "raw_count": 93643,
+  "invalid_count": 0,
+  "duplicate_count": 0,
+  "final_count": 93643,
+  "sha256": "6fd429ff102969109804ca9bf55b0f2e95012cb3841a0cdfcf29b0ea8a51f286",
+  "hdfs_final_path": "/user/hadoop/mtg/final/airflow_ad6095f4d0fe289c92ad2548",
+  "completeness_note": "Total-Count matched",
+  "data_quality": {
+    "run_id": "airflow_ad6095f4d0fe289c92ad2548",
+    "audited_at": "2026-11-04T17:12:35.474177+00:00",
+    "raw_count": 93643,
+    "verified_sha256_pages": 937,
+    "strict_utf8_pages": 937,
+    "fields": {
+      "id": {
+        "strings": 93643,
+        "empty_string": 0,
+        "whitespace_only": 0,
+        "edge_whitespace": 0,
+        "replacement_character": 0,
+        "unexpected_control_characters": 0,
+        "max_characters": 36,
+        "max_utf8_bytes": 36
+      },
+      "multiverseid": {
+        "strings": 63808,
+        "empty_string": 0,
+        "whitespace_only": 0,
+        "edge_whitespace": 0,
+        "replacement_character": 0,
+        "unexpected_control_characters": 0,
+        "max_characters": 6,
+        "max_utf8_bytes": 6,
+        "missing_key": 29835
+      },
+      "name": {
+        "strings": 93643,
+        "empty_string": 0,
+        "whitespace_only": 0,
+        "edge_whitespace": 0,
+        "replacement_character": 0,
+        "unexpected_control_characters": 0,
+        "max_characters": 141,
+        "max_utf8_bytes": 141
+      },
+      "text": {
+        "strings": 92548,
+        "empty_string": 0,
+        "whitespace_only": 0,
+        "edge_whitespace": 0,
+        "replacement_character": 0,
+        "unexpected_control_characters": 0,
+        "max_characters": 769,
+        "max_utf8_bytes": 770,
+        "missing_key": 1095
+      },
+      "artist": {
+        "strings": 93634,
+        "empty_string": 0,
+        "whitespace_only": 0,
+        "edge_whitespace": 0,
+        "replacement_character": 0,
+        "unexpected_control_characters": 0,
+        "max_characters": 50,
+        "max_utf8_bytes": 54,
+        "missing_key": 9
+      },
+      "set": {
+        "strings": 93643,
+        "empty_string": 0,
+        "whitespace_only": 0,
+        "edge_whitespace": 0,
+        "replacement_character": 0,
+        "unexpected_control_characters": 0,
+        "max_characters": 6,
+        "max_utf8_bytes": 6
+      },
+      "imageUrl": {
+        "strings": 63808,
+        "empty_string": 0,
+        "whitespace_only": 0,
+        "edge_whitespace": 0,
+        "replacement_character": 0,
+        "unexpected_control_characters": 0,
+        "max_characters": 77,
+        "max_utf8_bytes": 77,
+        "missing_key": 29835
+      }
+    },
+    "changes": {
+      "invalid_required_fields": 0,
+      "id_trimmed": 0,
+      "name_trimmed": 0,
+      "missing_text_to_empty": 1095,
+      "missing_artist_to_empty": 9,
+      "missing_set_to_empty": 0,
+      "multiverseid_missing": 29835,
+      "multiverseid_parsed_to_bigint": 63808,
+      "multiverseid_string_to_integer": 63808,
+      "multiverseid_invalid_to_null": 0,
+      "rows_with_value_cleaning": 1104,
+      "image_url_available": 63808,
+      "image_url_missing": 29835,
+      "image_url_unusable": 0,
+      "image_url_normalized": 63808,
+      "rows_with_content_changes": 64134
+    },
+    "distinct_ids": 93643,
+    "duplicate_id_groups": 0,
+    "distinct_names": 29049,
+    "repeated_name_groups": 17510,
+    "records_in_repeated_name_groups": 82104,
+    "image_hosts": {
+      "gatherer.wizards.com": 63808
+    },
+    "image_examples": [
+      {
+        "id": "5f8287b1-5bb6-5f4c-ad17-316a40d5bb0c",
+        "name": "Ancestor's Chosen",
+        "source_url": "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130550&type=card",
+        "display_url": "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130550&type=card"
+      },
+      {
+        "id": "57aaebc1-850c-503d-9f6e-bb8d00d8bf7c",
+        "name": "Angel of Mercy",
+        "source_url": "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=129465&type=card",
+        "display_url": "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=129465&type=card"
+      },
+      {
+        "id": "55bd38ca-dc73-5c06-8f80-a6ddd2f44382",
+        "name": "Angelic Blessing",
+        "source_url": "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=129711&type=card",
+        "display_url": "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=129711&type=card"
+      }
+    ],
+    "text_cleaning": {
+      "version": "text_cleaning_v1",
+      "raw_count": 93643,
+      "groups": [
+        {
+          "rule": "amp_entity",
+          "field": "foreignNames[].text",
+          "changed_values": 5,
+          "operations": 13,
+          "operation_unit": "ersetzte Entities",
+          "cards": 3,
+          "percent_of_raw_cards": 0.003204
+        },
+        {
+          "rule": "control_characters",
+          "field": "foreignNames[].name",
+          "changed_values": 1,
+          "operations": 1,
+          "operation_unit": "entfernte Zeichen",
+          "cards": 1,
+          "percent_of_raw_cards": 0.001068
+        },
+        {
+          "rule": "control_characters",
+          "field": "foreignNames[].text",
+          "changed_values": 15,
+          "operations": 15,
+          "operation_unit": "entfernte Zeichen",
+          "cards": 15,
+          "percent_of_raw_cards": 0.016018
+        },
+        {
+          "rule": "edge_spaces",
+          "field": "rulings[].text",
+          "changed_values": 439,
+          "operations": 439,
+          "operation_unit": "entfernte Leerzeichen",
+          "cards": 146,
+          "percent_of_raw_cards": 0.155911
+        },
+        {
+          "rule": "zero_width_space",
+          "field": "originalText",
+          "changed_values": 1,
+          "operations": 1,
+          "operation_unit": "entfernte Zeichen",
+          "cards": 1,
+          "percent_of_raw_cards": 0.001068
+        }
+      ],
+      "changed_cards": 166,
+      "percent_of_raw_cards": 0.177269,
+      "review_signals": {
+        "foreignNames[].text:unresolved_entity": 3
+      },
+      "examples": {
+        "edge_spaces": [
+          {
+            "id": "24410b81-f879-5d2d-b913-ebe776c770cb",
+            "name": "Phantasmal Bear",
+            "field": "rulings[].text"
+          },
+          {
+            "id": "8036298f-c426-53d8-ab1b-318f911e9e94",
+            "name": "Iwamori of the Open Fist",
+            "field": "rulings[].text"
+          },
+          {
+            "id": "0f0d2d5d-8bd0-5ca7-aeba-5b63f7b8aa1b",
+            "name": "Stampede Driver",
+            "field": "rulings[].text"
+          }
+        ],
+        "control_characters": [
+          {
+            "id": "a2499021-1bdd-5ee7-aa2a-50736092148e",
+            "name": "Dream Pillager",
+            "field": "foreignNames[].text"
+          },
+          {
+            "id": "b466129f-9f09-5f8e-ae20-15dd8f846303",
+            "name": "Feldon, Ronom Excavator",
+            "field": "foreignNames[].text"
+          },
+          {
+            "id": "42b513b4-1eb0-5b70-866d-56fd0a454dbc",
+            "name": "Feldon, Ronom Excavator",
+            "field": "foreignNames[].text"
+          }
+        ],
+        "amp_entity": [
+          {
+            "id": "cfe9ad7d-67c3-56c1-b9f4-83eb9b4aa803",
+            "name": "Minsc & Boo, Timeless Heroes",
+            "field": "foreignNames[].text"
+          },
+          {
+            "id": "5228c703-170a-53e4-9013-a9edcd5074b2",
+            "name": "Minsc & Boo, Timeless Heroes",
+            "field": "foreignNames[].text"
+          },
+          {
+            "id": "2e7d93a4-1be2-591c-8404-b6ab0a1b5aa3",
+            "name": "Fynn, the Fangbearer",
+            "field": "foreignNames[].text"
+          }
+        ],
+        "zero_width_space": [
+          {
+            "id": "439fedf1-5870-5db4-90e0-5229e212fffc",
+            "name": "Durnan of the Yawning Portal",
+            "field": "originalText"
+          }
+        ]
+      },
+      "scope": "Changed text occurrences in raw cards and distinct API IDs; groups can overlap. Originals are preserved."
+    },
+    "scope": "All original HDFS pages and selected export fields; image URL availability is not a check of every remote image."
+  },
+  "text_cleaning": {
+    "version": "text_cleaning_v1",
+    "raw_count": 93643,
+    "groups": [
+      {
+        "rule": "amp_entity",
+        "field": "foreignNames[].text",
+        "changed_values": 5,
+        "operations": 13,
+        "operation_unit": "ersetzte Entities",
+        "cards": 3,
+        "percent_of_raw_cards": 0.003204
+      },
+      {
+        "rule": "control_characters",
+        "field": "foreignNames[].name",
+        "changed_values": 1,
+        "operations": 1,
+        "operation_unit": "entfernte Zeichen",
+        "cards": 1,
+        "percent_of_raw_cards": 0.001068
+      },
+      {
+        "rule": "control_characters",
+        "field": "foreignNames[].text",
+        "changed_values": 15,
+        "operations": 15,
+        "operation_unit": "entfernte Zeichen",
+        "cards": 15,
+        "percent_of_raw_cards": 0.016018
+      },
+      {
+        "rule": "edge_spaces",
+        "field": "rulings[].text",
+        "changed_values": 439,
+        "operations": 439,
+        "operation_unit": "entfernte Leerzeichen",
+        "cards": 146,
+        "percent_of_raw_cards": 0.155911
+      },
+      {
+        "rule": "zero_width_space",
+        "field": "originalText",
+        "changed_values": 1,
+        "operations": 1,
+        "operation_unit": "entfernte Zeichen",
+        "cards": 1,
+        "percent_of_raw_cards": 0.001068
+      }
+    ],
+    "changed_cards": 166,
+    "percent_of_raw_cards": 0.177269,
+    "review_signals": {
+      "foreignNames[].text:unresolved_entity": 3
+    },
+    "examples": {
+      "edge_spaces": [
+        {
+          "id": "24410b81-f879-5d2d-b913-ebe776c770cb",
+          "name": "Phantasmal Bear",
+          "field": "rulings[].text"
+        },
+        {
+          "id": "8036298f-c426-53d8-ab1b-318f911e9e94",
+          "name": "Iwamori of the Open Fist",
+          "field": "rulings[].text"
+        },
+        {
+          "id": "0f0d2d5d-8bd0-5ca7-aeba-5b63f7b8aa1b",
+          "name": "Stampede Driver",
+          "field": "rulings[].text"
+        }
+      ],
+      "control_characters": [
+        {
+          "id": "a2499021-1bdd-5ee7-aa2a-50736092148e",
+          "name": "Dream Pillager",
+          "field": "foreignNames[].text"
+        },
+        {
+          "id": "b466129f-9f09-5f8e-ae20-15dd8f846303",
+          "name": "Feldon, Ronom Excavator",
+          "field": "foreignNames[].text"
+        },
+        {
+          "id": "42b513b4-1eb0-5b70-866d-56fd0a454dbc",
+          "name": "Feldon, Ronom Excavator",
+          "field": "foreignNames[].text"
+        }
+      ],
+      "amp_entity": [
+        {
+          "id": "cfe9ad7d-67c3-56c1-b9f4-83eb9b4aa803",
+          "name": "Minsc & Boo, Timeless Heroes",
+          "field": "foreignNames[].text"
+        },
+        {
+          "id": "5228c703-170a-53e4-9013-a9edcd5074b2",
+          "name": "Minsc & Boo, Timeless Heroes",
+          "field": "foreignNames[].text"
+        },
+        {
+          "id": "2e7d93a4-1be2-591c-8404-b6ab0a1b5aa3",
+          "name": "Fynn, the Fangbearer",
+          "field": "foreignNames[].text"
+        }
+      ],
+      "zero_width_space": [
+        {
+          "id": "439fedf1-5870-5db4-90e0-5229e212fffc",
+          "name": "Durnan of the Yawning Portal",
+          "field": "originalText"
+        }
+      ]
+    },
+    "scope": "Changed text occurrences in raw cards and distinct API IDs; groups can overlap. Originals are preserved."
+  },
+  "final_field_counts": {
+    "empty_card_text": 1095,
+    "empty_artist": 9,
+    "null_multiverseid": 29835,
+    "with_image_url": 63808,
+    "without_image_url": 29835
+  },
+  "export_columns": [
+    "id",
+    "multiverseid",
+    "name",
+    "card_text",
+    "artist",
+    "set_code",
+    "image_url",
+    "source_json",
+    "details_json"
+  ]
+}

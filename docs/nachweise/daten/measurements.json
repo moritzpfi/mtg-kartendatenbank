@@ -1,0 +1,62 @@
+{
+  "measured_at": "2026-11-04T17:30:30.577928+00:00",
+  "run_id": "airflow_ad6095f4d0fe289c92ad2548",
+  "count": 93643,
+  "changed_detail_objects_binary_sql": 166,
+  "missing_details": 0,
+  "unchanged_original_eight_column_hash": "a032ba937cb3ca13b30c26670b79e7c0616dfc218057bade43089162bce8d834",
+  "raw_manifest_pages_and_download_period_unchanged": true,
+  "original_json_bytes": 365975259,
+  "hdfs": {
+    "raw": {
+      "directoryCount": 1,
+      "ecPolicy": "",
+      "fileCount": 939,
+      "length": 366094837,
+      "quota": -1,
+      "snapshotDirectoryCount": 0,
+      "snapshotFileCount": 0,
+      "snapshotLength": 0,
+      "snapshotSpaceConsumed": 0,
+      "spaceConsumed": 366094837,
+      "spaceQuota": -1,
+      "typeQuota": {}
+    },
+    "final": {
+      "directoryCount": 1,
+      "ecPolicy": "",
+      "fileCount": 10,
+      "length": 310500824,
+      "quota": -1,
+      "snapshotDirectoryCount": 0,
+      "snapshotFileCount": 0,
+      "snapshotLength": 0,
+      "snapshotSpaceConsumed": 0,
+      "spaceConsumed": 310500824,
+      "spaceQuota": -1,
+      "typeQuota": {}
+    }
+  },
+  "mysql_tables": [
+    {
+      "table": "cards",
+      "data_bytes": 1739685888,
+      "index_bytes": 0
+    },
+    {
+      "table": "cards_staging",
+      "data_bytes": 1717223424,
+      "index_bytes": 0
+    }
+  ],
+  "mysql_buffer_pool_bytes": 2147483648,
+  "manta_http_seconds": [
+    0.4166,
+    0.4351
+  ],
+  "performance_note": "Two sequential real HTTP requests after validation; not a cold-start benchmark or a performance guarantee.",
+  "final_replications": [
+    1
+  ],
+  "replication_checked_at": "2026-11-04T17:37:08.361252+00:00"
+}

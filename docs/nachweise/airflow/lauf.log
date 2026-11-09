@@ -1,0 +1,56 @@
+[2026-11-04T17:02:10.099+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/mtg/dags
+2026-11-04T17:02:11.136162+00:00 {"fetch_to_hdfs_raw": null, "transform_to_hdfs_final": null, "validate_final": null, "load_database": null, "validate_database": null}
+2026-11-04T17:02:16.150457+00:00 {"fetch_to_hdfs_raw": "running", "transform_to_hdfs_final": null, "validate_final": null, "load_database": null, "validate_database": null}
+2026-11-04T17:04:41.286423+00:00 {"fetch_to_hdfs_raw": "success", "transform_to_hdfs_final": "queued", "validate_final": null, "load_database": null, "validate_database": null}
+2026-11-04T17:04:46.292336+00:00 {"fetch_to_hdfs_raw": "success", "transform_to_hdfs_final": "running", "validate_final": null, "load_database": null, "validate_database": null}
+2026-11-04T17:07:01.531125+00:00 {"fetch_to_hdfs_raw": "success", "transform_to_hdfs_final": "up_for_retry", "validate_final": null, "load_database": null, "validate_database": null}
+2026-11-04T17:12:01.807190+00:00 {"fetch_to_hdfs_raw": "success", "transform_to_hdfs_final": "running", "validate_final": null, "load_database": null, "validate_database": null}
+2026-11-04T17:14:27.037508+00:00 {"fetch_to_hdfs_raw": "success", "transform_to_hdfs_final": "success", "validate_final": "queued", "load_database": null, "validate_database": null}
+2026-11-04T17:14:32.043884+00:00 {"fetch_to_hdfs_raw": "success", "transform_to_hdfs_final": "success", "validate_final": "running", "load_database": null, "validate_database": null}
+2026-11-04T17:15:12.090713+00:00 {"fetch_to_hdfs_raw": "success", "transform_to_hdfs_final": "success", "validate_final": "success", "load_database": "queued", "validate_database": null}
+2026-11-04T17:15:17.096521+00:00 {"fetch_to_hdfs_raw": "success", "transform_to_hdfs_final": "success", "validate_final": "success", "load_database": "running", "validate_database": null}
+2026-11-04T17:24:54.098515+00:00 {"fetch_to_hdfs_raw": "success", "transform_to_hdfs_final": "success", "validate_final": "success", "load_database": "success", "validate_database": "queued"}
+2026-11-04T17:24:59.112633+00:00 {"fetch_to_hdfs_raw": "success", "transform_to_hdfs_final": "success", "validate_final": "success", "load_database": "success", "validate_database": "running"}
+2026-11-04T17:25:54.186515+00:00 {"fetch_to_hdfs_raw": "success", "transform_to_hdfs_final": "success", "validate_final": "success", "load_database": "success", "validate_database": "success"}
+{
+  "dag_id": "mtg_cards",
+  "run_id": "scheduled__2026-11-02T05:00:00+00:00",
+  "source_run_id": "airflow_ad6095f4d0fe289c92ad2548",
+  "replay_started_at": "2026-11-04T17:02:11.121397+00:00",
+  "mode": "Replay of completed full download; no new API requests",
+  "state": "success",
+  "elapsed_seconds": 1423.065,
+  "replay_finished_at": "2026-11-04T17:25:54.186598+00:00",
+  "tasks": [
+    {
+      "task_id": "fetch_to_hdfs_raw",
+      "state": "success",
+      "start_date": "2026-11-04T17:02:16.054439+00:00",
+      "end_date": "2026-11-04T17:04:39.440112+00:00"
+    },
+    {
+      "task_id": "transform_to_hdfs_final",
+      "state": "success",
+      "start_date": "2026-11-04T17:12:00.375729+00:00",
+      "end_date": "2026-11-04T17:14:25.492078+00:00"
+    },
+    {
+      "task_id": "validate_final",
+      "state": "success",
+      "start_date": "2026-11-04T17:14:29.956628+00:00",
+      "end_date": "2026-11-04T17:15:08.444099+00:00"
+    },
+    {
+      "task_id": "load_database",
+      "state": "success",
+      "start_date": "2026-11-04T17:15:12.888522+00:00",
+      "end_date": "2026-11-04T17:24:51.336406+00:00"
+    },
+    {
+      "task_id": "validate_database",
+      "state": "success",
+      "start_date": "2026-11-04T17:24:55.721825+00:00",
+      "end_date": "2026-11-04T17:25:50.908412+00:00"
+    }
+  ]
+}

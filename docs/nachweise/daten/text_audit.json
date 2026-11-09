@@ -1,0 +1,721 @@
+{
+  "run_id": "airflow_ad6095f4d0fe289c92ad2548",
+  "audited_at": "2026-11-04T17:31:15.800121+00:00",
+  "scope": "Every string in original and cleaned cards, including nested values. MySQL comparison covers all nine export columns; originals and cleaned details are compared separately through their expected canonical values.",
+  "source": "https://api.magicthegathering.io/v1/cards",
+  "verified_sha256_utf8_pages": 937,
+  "counts": {
+    "raw_cards": 93643,
+    "all_strings": 7886028,
+    "primary_strings": 279825
+  },
+  "missing_primary_keys": {
+    "artist": 9,
+    "name": 0,
+    "text": 1095
+  },
+  "cards_with_flags": {
+    "all:lf": 61932,
+    "primary:lf": 51935,
+    "all:edge_whitespace": 146,
+    "all:unexpected_control": 16,
+    "all:nonbreaking_space": 10,
+    "all:html_entity": 4,
+    "all:format_character": 1,
+    "all:html_tag": 11,
+    "all:empty": 8
+  },
+  "fields": {
+    "artist": {
+      "strings": 93634
+    },
+    "colorIdentity[]": {
+      "strings": 104244
+    },
+    "colors[]": {
+      "strings": 87602
+    },
+    "flavor": {
+      "strings": 46752,
+      "lf": 13513,
+      "html_tag": 4
+    },
+    "foreignNames[].faceName": {
+      "strings": 6674
+    },
+    "foreignNames[].flavor": {
+      "strings": 189015,
+      "lf": 26035,
+      "html_tag": 4
+    },
+    "foreignNames[].identifiers.scryfallId": {
+      "strings": 358564
+    },
+    "foreignNames[].imageUrl": {
+      "strings": 317564
+    },
+    "foreignNames[].language": {
+      "strings": 358564
+    },
+    "foreignNames[].name": {
+      "strings": 358564,
+      "unexpected_control": 1
+    },
+    "foreignNames[].text": {
+      "strings": 308703,
+      "lf": 176640,
+      "unexpected_control": 15,
+      "html_entity": 8
+    },
+    "foreignNames[].type": {
+      "strings": 323761,
+      "nonbreaking_space": 1
+    },
+    "hand": {
+      "strings": 119
+    },
+    "id": {
+      "strings": 93643
+    },
+    "imageUrl": {
+      "strings": 63808
+    },
+    "layout": {
+      "strings": 93643
+    },
+    "legalities[].format": {
+      "strings": 988052
+    },
+    "legalities[].legality": {
+      "strings": 988052
+    },
+    "life": {
+      "strings": 119
+    },
+    "loyalty": {
+      "strings": 1512
+    },
+    "manaCost": {
+      "strings": 81265
+    },
+    "multiverseid": {
+      "strings": 63808
+    },
+    "name": {
+      "strings": 93643
+    },
+    "number": {
+      "strings": 93643
+    },
+    "originalText": {
+      "strings": 55000,
+      "lf": 30076,
+      "nonbreaking_space": 5,
+      "format_character": 1
+    },
+    "originalType": {
+      "strings": 56144
+    },
+    "power": {
+      "strings": 44452
+    },
+    "printings[]": {
+      "strings": 1399358
+    },
+    "rarity": {
+      "strings": 93643
+    },
+    "rulings[].date": {
+      "strings": 211126
+    },
+    "rulings[].text": {
+      "strings": 211126,
+      "edge_whitespace": 440,
+      "nonbreaking_space": 4,
+      "empty": 8,
+      "html_tag": 7
+    },
+    "set": {
+      "strings": 93643
+    },
+    "setName": {
+      "strings": 93643
+    },
+    "subtypes[]": {
+      "strings": 85122
+    },
+    "supertypes[]": {
+      "strings": 16672
+    },
+    "text": {
+      "strings": 92548,
+      "lf": 51935
+    },
+    "toughness": {
+      "strings": 44452
+    },
+    "type": {
+      "strings": 93643
+    },
+    "types[]": {
+      "strings": 97431
+    },
+    "variations[]": {
+      "strings": 76412
+    },
+    "watermark": {
+      "strings": 6665
+    }
+  },
+  "cleaned_fields": {
+    "artist": {
+      "strings": 93634
+    },
+    "colorIdentity[]": {
+      "strings": 104244
+    },
+    "colors[]": {
+      "strings": 87602
+    },
+    "flavor": {
+      "strings": 46752,
+      "lf": 13513,
+      "html_tag": 4
+    },
+    "foreignNames[].faceName": {
+      "strings": 6674
+    },
+    "foreignNames[].flavor": {
+      "strings": 189015,
+      "lf": 26035,
+      "html_tag": 4
+    },
+    "foreignNames[].identifiers.scryfallId": {
+      "strings": 358564
+    },
+    "foreignNames[].imageUrl": {
+      "strings": 317564
+    },
+    "foreignNames[].language": {
+      "strings": 358564
+    },
+    "foreignNames[].name": {
+      "strings": 358564
+    },
+    "foreignNames[].text": {
+      "strings": 308703,
+      "lf": 176640,
+      "html_entity": 3
+    },
+    "foreignNames[].type": {
+      "strings": 323761,
+      "nonbreaking_space": 1
+    },
+    "hand": {
+      "strings": 119
+    },
+    "id": {
+      "strings": 93643
+    },
+    "imageUrl": {
+      "strings": 63808
+    },
+    "layout": {
+      "strings": 93643
+    },
+    "legalities[].format": {
+      "strings": 988052
+    },
+    "legalities[].legality": {
+      "strings": 988052
+    },
+    "life": {
+      "strings": 119
+    },
+    "loyalty": {
+      "strings": 1512
+    },
+    "manaCost": {
+      "strings": 81265
+    },
+    "multiverseid": {
+      "strings": 63808
+    },
+    "name": {
+      "strings": 93643
+    },
+    "number": {
+      "strings": 93643
+    },
+    "originalText": {
+      "strings": 55000,
+      "lf": 30076,
+      "nonbreaking_space": 5
+    },
+    "originalType": {
+      "strings": 56144
+    },
+    "power": {
+      "strings": 44452
+    },
+    "printings[]": {
+      "strings": 1399358
+    },
+    "rarity": {
+      "strings": 93643
+    },
+    "rulings[].date": {
+      "strings": 211126
+    },
+    "rulings[].text": {
+      "strings": 211126,
+      "nonbreaking_space": 4,
+      "edge_whitespace": 1,
+      "empty": 8,
+      "html_tag": 7
+    },
+    "set": {
+      "strings": 93643
+    },
+    "setName": {
+      "strings": 93643
+    },
+    "subtypes[]": {
+      "strings": 85122
+    },
+    "supertypes[]": {
+      "strings": 16672
+    },
+    "text": {
+      "strings": 92548,
+      "lf": 51935
+    },
+    "toughness": {
+      "strings": 44452
+    },
+    "type": {
+      "strings": 93643
+    },
+    "types[]": {
+      "strings": 97431
+    },
+    "variations[]": {
+      "strings": 76412
+    },
+    "watermark": {
+      "strings": 6665
+    }
+  },
+  "cleaned_cards_with_flags": {
+    "all:lf": 61932,
+    "all:nonbreaking_space": 10,
+    "all:html_entity": 1,
+    "all:edge_whitespace": 1,
+    "all:html_tag": 11,
+    "all:empty": 8
+  },
+  "special_characters": {
+    "foreignNames[].name": {
+      "U+0090 UNNAMED": 1
+    },
+    "foreignNames[].text": {
+      "U+0081 UNNAMED": 14,
+      "U+0090 UNNAMED": 1
+    },
+    "foreignNames[].type": {
+      "U+00A0 NO-BREAK SPACE": 1
+    },
+    "originalText": {
+      "U+00A0 NO-BREAK SPACE": 5,
+      "U+200B ZERO WIDTH SPACE": 1
+    },
+    "rulings[].text": {
+      "U+00A0 NO-BREAK SPACE": 4
+    }
+  },
+  "examples": {
+    "text:lf": [
+      {
+        "id": "5f8287b1-5bb6-5f4c-ad17-316a40d5bb0c",
+        "name": "Ancestor's Chosen",
+        "value": "First strike (This creature deals combat damage before creatures without first strike.)\nWhen Ancestor's Chosen enters the battlefield, you gain 1 life for each card in your graveyard."
+      },
+      {
+        "id": "b7c19924-b4bf-56fc-aa73-f586e940bd42",
+        "name": "Ancestor's Chosen",
+        "value": "First strike (This creature deals combat damage before creatures without first strike.)\nWhen Ancestor's Chosen enters the battlefield, you gain 1 life for each card in your graveyard."
+      },
+      {
+        "id": "57aaebc1-850c-503d-9f6e-bb8d00d8bf7c",
+        "name": "Angel of Mercy",
+        "value": "Flying\nWhen Angel of Mercy enters the battlefield, you gain 3 life."
+      }
+    ],
+    "foreignNames[].text:lf": [
+      {
+        "id": "5f8287b1-5bb6-5f4c-ad17-316a40d5bb0c",
+        "name": "Ancestor's Chosen",
+        "value": "Erstschlag (Diese Kreatur fügt Kampfschaden vor Kreaturen ohne Erstschlag zu.)\nWenn der Ausgewählte der Ahnfrau ins Spiel kommt, erhältst du 1 Lebenspunkt für jede Karte in deinem Friedhof dazu."
+      },
+      {
+        "id": "5f8287b1-5bb6-5f4c-ad17-316a40d5bb0c",
+        "name": "Ancestor's Chosen",
+        "value": "Daña primero. (Esta criatura hace daño de combate antes que las criaturas sin la habilidad de dañar primero.)\nCuando el Elegido de la Antepasada entre en juego, ganas 1 vida por cada carta en tu cementerio."
+      },
+      {
+        "id": "5f8287b1-5bb6-5f4c-ad17-316a40d5bb0c",
+        "name": "Ancestor's Chosen",
+        "value": "Initiative (Cette créature inflige des blessures de combat avant les créatures sans l'initiative.)\nQuand l'Élu de l'Ancêtre arrive en jeu, vous gagnez 1 point de vie pour chaque carte dans votre cimetière."
+      }
+    ],
+    "originalText:lf": [
+      {
+        "id": "5f8287b1-5bb6-5f4c-ad17-316a40d5bb0c",
+        "name": "Ancestor's Chosen",
+        "value": "First strike\nWhen Ancestor's Chosen comes into play, you gain 1 life for each card in your graveyard."
+      },
+      {
+        "id": "57aaebc1-850c-503d-9f6e-bb8d00d8bf7c",
+        "name": "Angel of Mercy",
+        "value": "Flying\nWhen Angel of Mercy comes into play, you gain 3 life."
+      },
+      {
+        "id": "fac6ad26-f8c2-51bd-9f6a-a1b0940b4cef",
+        "name": "Aura of Silence",
+        "value": "Artifact and enchantment spells your opponents play cost {2} more to play.\nSacrifice Aura of Silence: Destroy target artifact or enchantment."
+      }
+    ],
+    "flavor:lf": [
+      {
+        "id": "fadda48c-6226-5ac5-a2b9-e9170d2017cd",
+        "name": "Angelic Wall",
+        "value": "\"The Ancestor protects us in ways we can't begin to comprehend.\"\n—Mystic elder"
+      },
+      {
+        "id": "60b93108-8790-591b-844e-c3d311698767",
+        "name": "Angelic Wall",
+        "value": "\"The Ancestor protects us in ways we can't begin to comprehend.\"\n—Mystic elder"
+      },
+      {
+        "id": "6adaf14d-43e3-521a-adf1-960c808e5b1a",
+        "name": "Aven Cloudchaser",
+        "value": "\"At the Reapportionment, Eagle begged to be human. The Ancestor granted half that prayer.\"\n—Nomad myth"
+      }
+    ],
+    "foreignNames[].flavor:lf": [
+      {
+        "id": "18f8c5aa-4e9b-5cf3-8b36-0ef27a7efcb1",
+        "name": "Scale Blessing",
+        "value": "„Deine Tapferkeit ehrt uns alle.\"\n—Dromoka, aus dem Drakonischen übersetzt"
+      },
+      {
+        "id": "18f8c5aa-4e9b-5cf3-8b36-0ef27a7efcb1",
+        "name": "Scale Blessing",
+        "value": "« Ton courage nous honore tous. »\n—Dromoka, traduit du draconique"
+      },
+      {
+        "id": "18f8c5aa-4e9b-5cf3-8b36-0ef27a7efcb1",
+        "name": "Scale Blessing",
+        "value": "「貴殿の勇気は皆の栄誉となるだろう。」\n――ドロモカ、龍詞からの翻訳"
+      }
+    ],
+    "rulings[].text:edge_whitespace": [
+      {
+        "id": "24410b81-f879-5d2d-b913-ebe776c770cb",
+        "name": "Phantasmal Bear",
+        "value": "If Phantasmal Bear becomes the target of a spell or ability, its ability triggers and goes on the stack on top of that spell or ability. The ability will resolve first (causing Phantasmal Bear to be sacrificed). Unless the spell or ability has another target, it will then be countered when it tries to resolve for having no legal targets. "
+      },
+      {
+        "id": "8036298f-c426-53d8-ab1b-318f911e9e94",
+        "name": "Iwamori of the Open Fist",
+        "value": "When Iwamori's triggered ability resolves, first the player whose turn it is (if that player is an opponent) may choose a legendary creature card in hand without revealing it, then each other opponent in turn order may do the same, then all chosen cards are put onto the battlefield at the same time. "
+      },
+      {
+        "id": "0f0d2d5d-8bd0-5ca7-aeba-5b63f7b8aa1b",
+        "name": "Stampede Driver",
+        "value": "Stampede Driver's ability affects only creatures you control at the time it resolves. Creatures you begin to control later in the turn won't get +1/+1 or gain trample. "
+      }
+    ],
+    "foreignNames[].text:unexpected_control": [
+      {
+        "id": "a2499021-1bdd-5ee7-aa2a-50736092148e",
+        "name": "Dream Pillager",
+        "value": "Vol\nÀ chaque fois que le Pilleur des rêves inflige des blessures de combat à un joueur, exilez autant de cartes du dessus de votre bibliothèque. Jusqu'à la fin du tour, vous pouvez lancer des sorts parmi ces cartes exilées."
+      },
+      {
+        "id": "b466129f-9f09-5f8e-ae20-15dd8f846303",
+        "name": "Feldon, Ronom Excavator",
+        "value": "Célérité\nFeldonn, excavateur de Ronom ne peut pas bloquer.\nÀ chaque fois que Feldonn subit des blessures, exilez autant de cartes du dessus de votre bibliothèque. Choisissez l'une d'elles. Jusqu'à la fin de votre prochain tour, vous pouvez jouer cette carte."
+      },
+      {
+        "id": "42b513b4-1eb0-5b70-866d-56fd0a454dbc",
+        "name": "Feldon, Ronom Excavator",
+        "value": "Célérité\nFeldonn, excavateur de Ronom ne peut pas bloquer.\nÀ chaque fois que Feldonn subit des blessures, exilez autant de cartes du dessus de votre bibliothèque. Choisissez l'une d'elles. Jusqu'à la fin de votre prochain tour, vous pouvez jouer cette carte."
+      }
+    ],
+    "originalText:nonbreaking_space": [
+      {
+        "id": "373f075b-0160-501b-9cc7-61e21a3fdbcc",
+        "name": "Nascent Metamorph",
+        "value": "Whenever Nascent Metamorph attacks or blocks, target opponent reveals cards from the top of their library until they reveal a creature card. Nascent Metamorph becomes a copy of that card until end of turn. Then that player puts all cards revealed this way on the bottom of their library in a random order."
+      },
+      {
+        "id": "a1355369-214a-5d9a-9dd7-fdcb299e7803",
+        "name": "Grenzo, Havoc Raiser",
+        "value": "Whenever a creature you control deals combat damage to a player, choose one —\n• Goad target creature that player controls.\n• Exile the top card of that player's library. Until end of turn, you may cast that card and you may spend mana as though it were mana of any color to cast it."
+      },
+      {
+        "id": "d4f13ffb-ba09-58af-b0c6-c75a928958f9",
+        "name": "Stew the Coneys",
+        "value": "Target creature you control deals damage equal to its power to target creature you don't control. Create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")"
+      }
+    ],
+    "foreignNames[].text:html_entity": [
+      {
+        "id": "cfe9ad7d-67c3-56c1-b9f4-83eb9b4aa803",
+        "name": "Minsc & Boo, Timeless Heroes",
+        "value": "Wenn Minsc &amp; Buh, zeitlose Helden, ins Spiel kommen und zu Beginn deines Versorgungssegments, kannst du Buh erzeugen, einen legendären 1/1 roten Hamster-Kreaturenspielstein mit Eile, der Trampelschaden verursacht.\n+1: Lege drei +1/+1-Marken auf bis zu eine Kreatur deiner Wahl, die Eile hat oder Trampelschaden verursacht.\n−2: Opfere eine Kreatur. Wenn du dies tust, fügen Minsc &amp; Buh, zeitlose Helden, einem Ziel deiner Wahl X Schadenspunkte zu, wobei X gleich der Stärke der Kreatur ist. Falls die geopferte Kreatur ein Hamster war, ziehe X Karten.\nMinsc &amp; Buh, zeitlose Helden, können dein Kommandeur sein."
+      },
+      {
+        "id": "cfe9ad7d-67c3-56c1-b9f4-83eb9b4aa803",
+        "name": "Minsc & Boo, Timeless Heroes",
+        "value": "Quando Minsc &amp; Boo, Heróis Atemporais, entra no campo de batalha e no início de sua manutenção, você pode criar Boo, uma ficha de criatura Hamster vermelha 1/1 lendária com atropelar e ímpeto.\n+1: Coloque três marcadores +1/+1 em até uma criatura alvo com atropelar ou ímpeto.\n−2: Sacrifique uma criatura. Quando você faz isso, Minsc &amp; Boo, Heróis Atemporais, causa X pontos de dano a qualquer alvo, sendo X o poder daquela criatura. Se a criatura sacrificada era um Hamster, compre X cards.\nMinsc &amp; Boo, Heróis Atemporais, pode ser seu comandante."
+      },
+      {
+        "id": "5228c703-170a-53e4-9013-a9edcd5074b2",
+        "name": "Minsc & Boo, Timeless Heroes",
+        "value": "Wenn Minsc &amp; Buh, zeitlose Helden, ins Spiel kommen und zu Beginn deines Versorgungssegments, kannst du Buh erzeugen, einen legendären 1/1 roten Hamster-Kreaturenspielstein mit Eile, der Trampelschaden verursacht.\n+1: Lege drei +1/+1-Marken auf bis zu eine Kreatur deiner Wahl, die Eile hat oder Trampelschaden verursacht.\n−2: Opfere eine Kreatur. Wenn du dies tust, fügen Minsc &amp; Buh, zeitlose Helden, einem Ziel deiner Wahl X Schadenspunkte zu, wobei X gleich der Stärke der Kreatur ist. Falls die geopferte Kreatur ein Hamster war, ziehe X Karten.\nMinsc &amp; Buh, zeitlose Helden, können dein Kommandeur sein."
+      }
+    ],
+    "originalText:format_character": [
+      {
+        "id": "439fedf1-5870-5db4-90e0-5229e212fffc",
+        "name": "Durnan of the Yawning Portal",
+        "value": "Whenever Durnan attacks, look at the top four cards of your library. You may exile a creature card from among them. Put the rest on the bottom of your library in any order. For as long as that card remains exiled, you may cast it. That spell has undaunted. (It costs {1}​ less to cast for each opponent.)\nChoose a Background (You can have a Background as a second commander.)"
+      }
+    ],
+    "rulings[].text:nonbreaking_space": [
+      {
+        "id": "dfb100fa-7984-5121-ba12-068c60fdc9c2",
+        "name": "Ugin's Mastery",
+        "value": "If a double-faced card is manifested, it will be put onto the battlefield face down. While face down, a transforming double-faced card can't transform or convert. If the front face of a face down double-faced card is a creature card, you can turn it face up by paying its mana cost. If you do, its front face will be up."
+      },
+      {
+        "id": "d6aa8f3f-5a4c-5aff-9af2-8ed8ea8af088",
+        "name": "Ugin's Mastery",
+        "value": "If a double-faced card is manifested, it will be put onto the battlefield face down. While face down, a transforming double-faced card can't transform or convert. If the front face of a face down double-faced card is a creature card, you can turn it face up by paying its mana cost. If you do, its front face will be up."
+      },
+      {
+        "id": "b01e7032-cc93-5f29-8226-4b1f24ddc98c",
+        "name": "Ugin's Mastery",
+        "value": "If a double-faced card is manifested, it will be put onto the battlefield face down. While face down, a transforming double-faced card can't transform or convert. If the front face of a face down double-faced card is a creature card, you can turn it face up by paying its mana cost. If you do, its front face will be up."
+      }
+    ],
+    "foreignNames[].type:nonbreaking_space": [
+      {
+        "id": "5bbae107-15f5-5edd-a910-c670cfaf44c3",
+        "name": "Deathbloom Gardener",
+        "value": "Créature : elfe et druide"
+      }
+    ],
+    "foreignNames[].name:unexpected_control": [
+      {
+        "id": "f3a57e02-f18c-5080-b980-ce8b69398cd6",
+        "name": "Aetherspouts",
+        "value": "Vortici d'Etere"
+      }
+    ],
+    "flavor:html_tag": [
+      {
+        "id": "3a8245db-206a-5e5a-a47c-6d13e0751047",
+        "name": "Steel Overseer",
+        "value": "\"Welcome, Administrator. Targeting Parameters have been erased and set to ADMIN_USER_GROUP• <Token. Name=Faction>.\""
+      },
+      {
+        "id": "4b365d30-f0d6-5817-ab2e-06f082bbe107",
+        "name": "Steel Overseer",
+        "value": "\"Welcome, Administrator. Targeting Parameters have been erased and set to ADMIN_USER_GROUP• <Token. Name=Faction>.\""
+      },
+      {
+        "id": "d4a11d8f-b0b9-5ec4-bbd5-8e58a44be74e",
+        "name": "Steel Overseer",
+        "value": "\"Welcome, Administrator. Targeting Parameters have been erased and set to ADMIN_USER_GROUP:: <Token. Name=Faction>.\""
+      }
+    ],
+    "foreignNames[].flavor:html_tag": [
+      {
+        "id": "3a8245db-206a-5e5a-a47c-6d13e0751047",
+        "name": "Steel Overseer",
+        "value": "「ようこそ、管理者。ターゲティングパラメータが消去され、次の値に設定されました。ADMIN_USER_GROUP•<Token.Name=Faction>＜Token.Name=Faction＞」"
+      },
+      {
+        "id": "3a8245db-206a-5e5a-a47c-6d13e0751047",
+        "name": "Steel Overseer",
+        "value": "「欢迎，管理员。瞄准设定已删除，并设定为ADMIN_USER_GROUP•<Token.Name=Faction>。」"
+      },
+      {
+        "id": "4b365d30-f0d6-5817-ab2e-06f082bbe107",
+        "name": "Steel Overseer",
+        "value": "「ようこそ、管理者さん。ターゲット・パラメータは消去され、ADMIN_USER_GROUPに設定されました•\n<Token.Name=Faction>＜Token.Name=Faction＞」"
+      }
+    ],
+    "rulings[].text:empty": [
+      {
+        "id": "ca54c3a5-36c6-5936-b306-af4bf20c925d",
+        "name": "Wandering Archaic // Explore the Vastlands",
+        "value": ""
+      },
+      {
+        "id": "c256d867-6dc4-5ffb-a0d1-ccb2f5673356",
+        "name": "Wandering Archaic // Explore the Vastlands",
+        "value": ""
+      },
+      {
+        "id": "621ad0e4-bd21-5a46-a955-bc5ee1cf3720",
+        "name": "Wandering Archaic // Explore the Vastlands",
+        "value": ""
+      }
+    ],
+    "rulings[].text:html_tag": [
+      {
+        "id": "a1db0d21-ec68-50dd-bc73-935f9059ddc3",
+        "name": "Yet Another Aether Vortex",
+        "value": "If the top card of your library is a creature card and it’s put into your graveyard, the creature did die. Note that it wasn’t destroyed or sacrificed or anything. It just died. <sad trombone noises>"
+      },
+      {
+        "id": "8755283a-6830-5a04-98a5-4538e5b32897",
+        "name": "Surgeon General Commander",
+        "value": "Mutate is a keyword from the future! Unless you’re reading this after it’s been released, in which case it’s … <spooky music>a keyword from the present!</spooky music>. But I suppose you could be reading this in a theoretical future in which the keyword was released, threatened to destroy Magic (as I do occasionally), and removed from the game, in which case it’s… <spookier music>a keyword from the past!</spookier music>."
+      },
+      {
+        "id": "87874c83-6b86-5b71-ae64-f02d102bb4db",
+        "name": "Yet Another Aether Vortex",
+        "value": "If the top card of your library is a creature card and it’s put into your graveyard, the creature did die. Note that it wasn’t destroyed or sacrificed or anything. It just died. <sad trombone noises>"
+      }
+    ]
+  },
+  "database": {
+    "count": 93643,
+    "mismatches": 0,
+    "missing_expected_ids": 0,
+    "example_mismatch_ids": []
+  },
+  "interpretation": "Flags are review signals, not automatic errors. Line breaks, accents, symbols and multilingual spelling can be legitimate. No source or database values were changed.",
+  "text_cleaning": {
+    "version": "text_cleaning_v1",
+    "raw_count": 93643,
+    "groups": [
+      {
+        "rule": "amp_entity",
+        "field": "foreignNames[].text",
+        "changed_values": 5,
+        "operations": 13,
+        "operation_unit": "ersetzte Entities",
+        "cards": 3,
+        "percent_of_raw_cards": 0.003204
+      },
+      {
+        "rule": "control_characters",
+        "field": "foreignNames[].name",
+        "changed_values": 1,
+        "operations": 1,
+        "operation_unit": "entfernte Zeichen",
+        "cards": 1,
+        "percent_of_raw_cards": 0.001068
+      },
+      {
+        "rule": "control_characters",
+        "field": "foreignNames[].text",
+        "changed_values": 15,
+        "operations": 15,
+        "operation_unit": "entfernte Zeichen",
+        "cards": 15,
+        "percent_of_raw_cards": 0.016018
+      },
+      {
+        "rule": "edge_spaces",
+        "field": "rulings[].text",
+        "changed_values": 439,
+        "operations": 439,
+        "operation_unit": "entfernte Leerzeichen",
+        "cards": 146,
+        "percent_of_raw_cards": 0.155911
+      },
+      {
+        "rule": "zero_width_space",
+        "field": "originalText",
+        "changed_values": 1,
+        "operations": 1,
+        "operation_unit": "entfernte Zeichen",
+        "cards": 1,
+        "percent_of_raw_cards": 0.001068
+      }
+    ],
+    "changed_cards": 166,
+    "percent_of_raw_cards": 0.177269,
+    "review_signals": {
+      "foreignNames[].text:unresolved_entity": 3
+    },
+    "examples": {
+      "edge_spaces": [
+        {
+          "id": "24410b81-f879-5d2d-b913-ebe776c770cb",
+          "name": "Phantasmal Bear",
+          "field": "rulings[].text"
+        },
+        {
+          "id": "8036298f-c426-53d8-ab1b-318f911e9e94",
+          "name": "Iwamori of the Open Fist",
+          "field": "rulings[].text"
+        },
+        {
+          "id": "0f0d2d5d-8bd0-5ca7-aeba-5b63f7b8aa1b",
+          "name": "Stampede Driver",
+          "field": "rulings[].text"
+        }
+      ],
+      "control_characters": [
+        {
+          "id": "a2499021-1bdd-5ee7-aa2a-50736092148e",
+          "name": "Dream Pillager",
+          "field": "foreignNames[].text"
+        },
+        {
+          "id": "b466129f-9f09-5f8e-ae20-15dd8f846303",
+          "name": "Feldon, Ronom Excavator",
+          "field": "foreignNames[].text"
+        },
+        {
+          "id": "42b513b4-1eb0-5b70-866d-56fd0a454dbc",
+          "name": "Feldon, Ronom Excavator",
+          "field": "foreignNames[].text"
+        }
+      ],
+      "amp_entity": [
+        {
+          "id": "cfe9ad7d-67c3-56c1-b9f4-83eb9b4aa803",
+          "name": "Minsc & Boo, Timeless Heroes",
+          "field": "foreignNames[].text"
+        },
+        {
+          "id": "5228c703-170a-53e4-9013-a9edcd5074b2",
+          "name": "Minsc & Boo, Timeless Heroes",
+          "field": "foreignNames[].text"
+        },
+        {
+          "id": "2e7d93a4-1be2-591c-8404-b6ab0a1b5aa3",
+          "name": "Fynn, the Fangbearer",
+          "field": "foreignNames[].text"
+        }
+      ],
+      "zero_width_space": [
+        {
+          "id": "439fedf1-5870-5db4-90e0-5229e212fffc",
+          "name": "Durnan of the Yawning Portal",
+          "field": "originalText"
+        }
+      ]
+    },
+    "scope": "Changed text occurrences in raw cards and distinct API IDs; groups can overlap. Originals are preserved."
+  }
+}

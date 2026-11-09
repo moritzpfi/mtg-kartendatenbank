@@ -1,0 +1,31 @@
+{
+  "checked_at": "2026-11-04T19:23:32.451892+00:00",
+  "database": {
+    "count": 93643,
+    "sha256": "6fd429ff102969109804ca9bf55b0f2e95012cb3841a0cdfcf29b0ea8a51f286"
+  },
+  "cleaned_detail_status": 200,
+  "german_entity_corrected": true,
+  "mana_symbols_preserved": true,
+  "dag_is_paused": false,
+  "full_run_state": "success",
+  "application_files_sha256": {
+    "scripts/__init__.py": "0a5ef71ca96df7e937a7cd658881f1702b872bc78c12b4c707788622f388c0e5",
+    "scripts/audit_text.py": "ef2f4909b56c700fc48e016d653066915e8b5c554583f9431480f612faeec5ad",
+    "scripts/common.py": "3a23827fd06ca0e4d80a053bfd2f77913af3c12a96799750cd36bdc5d756d179",
+    "scripts/configure.py": "d3a603a8be15e3c0d7d9cdfbf78f0d7b2d7bd9da74992f5c9d42c6b132e36765",
+    "scripts/data_quality.py": "df0f598e18b63a45bebf21df940bd1872a1ae96181d26113aea8520ad00d6b3a",
+    "scripts/fetch_cards.py": "1111a4b6d6bb21b6521b0166e0e672567a26c284435befd7bc1400cfbb7389c3",
+    "scripts/package_project.py": "4eed170948210a3e4b46806f6b68fd8a71115f782074e68fa168c324eb0f8097",
+    "scripts/process_cards.py": "7805cdbfb76a33fc2dcfc1e7401ad53573de2c27eb071eab1f508d6d0c5baa1b",
+    "scripts/text_cleaning.py": "ea025056b9d71dd5720cafa587c6744f2bcb16ad401f2f12b4dc5889cda97f30",
+    "scripts/verify_live.py": "4d702b87f817c96dde1ff7575fe0ecb180f733982cd255eadfcf56418e264a20",
+    "dags/mtg_cards.py": "0a1e86f8daddf9e5d21da0b64dee78b73f6cb08e7c97548586a196e356c2ac04",
+    "sql/cards.sql": "42d1c6b0c3114c79818e694f81b42cfe1b720b1d9afd6a7aa360f1fdaa66f7a6",
+    "sql/cards_staging.sql": "e3f6f0afd69240576708b7fefd5d67e515c9353dcce86799179998f708b43064",
+    "web/app.py": "4a55e723303aba41a9334ec63f3661192f9a2d3008995537c63ab56f138f3772",
+    "Dockerfile": "842d23892cb25a7683fd9a8ed70024d7072cca8f8be28df64af5a5a32ac185c0",
+    "compose.yaml": "73a037ec181bfea84e318b5d3162d6dd4645d4005344ecb5a0f55a2c6341acbd",
+    "requirements.txt": "e153f4dbf1f18c3d8654dafb2695966a241cc6f1de777b6de542453b966a9dcb"
+  }
+}
