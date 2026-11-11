@@ -6,7 +6,8 @@
 MTG-API → HDFS raw → PySpark → HDFS final (Parquet) → MySQL → HTML-Suche
 ```
 
-`dags/mtg_cards.py` führt täglich um **05:00 UTC** höchstens einen Lauf gleichzeitig aus:
+- `dags/mtg_cards.py`: täglich **05:00 UTC** bei laufender VM und aktivem DAG.
+- Höchstens ein aktiver Lauf.
 
 | Task | Skript / Zweck |
 | --- | --- |
@@ -18,15 +19,19 @@ MTG-API → HDFS raw → PySpark → HDFS final (Parquet) → MySQL → HTML-Suc
 
 ## Quelle und Raw Layer
 
-Quelle: `https://api.magicthegathering.io/v1/cards`. Der Abruf nutzt `pageSize=100`, folgt den Next-Links und prüft fortlaufende Seiten sowie die gemeldete Gesamtzahl. Ändert sich `Total-Count` während des Abrufs oder weicht die Endsumme ab, wird kein Bestand veröffentlicht. Fehlt dieser Header, wird dies dokumentiert und das Ende über die Next-Links bestimmt. Eine veränderliche externe API bietet keinen transaktionalen Snapshot über alle Abrufzeitpunkte.
-
-Originale Antwortbytes liegen unter `/user/hadoop/mtg/raw/<lauf-id>/`. Das Manifest protokolliert Zeitraum, Kartenzahl und SHA256 je Datei. Die Transformation prüft alle Seiten erneut auf Prüfsumme, UTF-8 und gültiges JSON. Vorübergehende HTTP-Fehler werden begrenzt wiederholt, Rate-Limits berücksichtigt. Unvollständige Downloads bleiben unvollständig markiert.
-
-Die lokale Arbeitsablage erlaubt die Wiederaufnahme. Eine neue Run-ID startet einen neuen Abruf. Bei derselben Run-ID verwendet der Workflow einen abgeschlossenen Download erneut.
+- API-Endpunkt: `https://api.magicthegathering.io/v1/cards`.
+- `pageSize=100`, Weiterblättern per Next-Link. Prüfung auf fortlaufende Seiten und passende Gesamtzahl.
+- Falls vorhanden, muss der Header `Total-Count` stabil bleiben und zur Endsumme passen. Ohne Header zählt das Ende der Next-Link-Kette. Fehlenden Header protokollieren.
+- Die API kann sich zwischen einzelnen Seitenabrufen ändern.
+- Originale Antwortbytes unter `/user/hadoop/mtg/raw/<lauf-id>/`.
+- Manifest mit Zeitraum, Kartenzahl und SHA256 je Datei. Erneute Prüfung auf Prüfsumme, UTF-8 und gültiges JSON in der Transformation.
+- Begrenzte Wiederholungen bei vorübergehenden HTTP-Fehlern, unter Berücksichtigung der Rate-Limits. Unvollständige Downloads entsprechend markiert.
+- Wiederaufnahme aus der lokalen Arbeitsablage. Gleiche Run-ID verwendet einen abgeschlossenen Download erneut. Neue Run-ID startet einen neuen Abruf.
 
 ## Finalmodell
 
-Eine Zeile entspricht einer API-ID. Verschiedene Editionen können denselben Namen haben und bleiben getrennt. PySpark bewahrt jedes vollständige Objekt und erzeugt neun Exportspalten:
+- Eine Zeile pro API-ID. Gleichnamige Editionen bleiben getrennt.
+- Neun Exportspalten aus PySpark, einschließlich des vollständigen Originalobjekts.
 
 | Spalte | Aufbereitung |
 | --- | --- |
@@ -40,13 +45,16 @@ Eine Zeile entspricht einer API-ID. Verschiedene Editionen können denselben Nam
 | `source_json` | Vollständiges ursprüngliches Objekt, einschließlich unbekannter und verschachtelter Felder |
 | `details_json` | Vollständige bereinigte Kopie für die Detailanzeige |
 
-Datensätze ohne gültige ID oder Namen werden gezählt und ausgeschlossen. Exakt identische Datensätze werden dedupliziert. Unterschiedliche Inhalte mit derselben ID stoppen die Transformation. Neue Finalbestände benötigen für jede Karte gültige Original- und Detailobjekte.
-
-Parquet liegt unter `/user/hadoop/mtg/final/<lauf-id>/`. `_summary.json` enthält Mengen, Regeln und den kanonischen Inhalts-Hash über alle neun Spalten. Die Bilanz lautet: Rohdatensätze = ungültige Datensätze + entfernte Dubletten + Finaldatensätze.
+- Datensätze ohne gültige ID oder Namen zählen und ausschließen.
+- Exakte Dubletten entfernen. Bei unterschiedlichen Inhalten zur selben ID bricht die Transformation ab.
+- Für jede Karte im neuen Finalbestand gültiges Original- und Detailobjekt.
+- Parquet unter `/user/hadoop/mtg/final/<lauf-id>/`.
+- `_summary.json`: Mengen, Regeln und kanonischer Inhalts-Hash über alle neun Spalten.
+- Rohdatensätze = ungültige Datensätze + entfernte Dubletten + Finaldatensätze.
 
 ## Deterministische Textbereinigung
 
-`text_cleaning_v1` wendet diese Regeln mit der Python-Standardbibliothek auf eine Kopie an.
+- `text_cleaning_v1`: Regeln aus der Tabelle auf die Detailkopie anwenden, mit der Python-Standardbibliothek.
 
 | Feld | Regel |
 | --- | --- |
@@ -55,24 +63,34 @@ Parquet liegt unter `/user/hadoop/mtg/final/<lauf-id>/`. `_summary.json` enthäl
 | `rulings[].text` | ASCII-Leerzeichen am Anfang und Ende entfernen |
 | `originalText` | Nachgewiesenes U+200B entfernen |
 
-Manasymbole, Zeilenumbrüche, Akzente, asiatische Schrift, geschützte Leerzeichen und bedeutungstragende spitze Klammern bleiben erhalten. Mehrfach kodierte oder unbekannte Entities bleiben als Prüfsignale stehen. [Messwerte und Fundstellen](berichte/Textpruefung.md)
+- Erhalten: Manasymbole, Zeilenumbrüche, Akzente, asiatische Schrift, geschützte Leerzeichen und bedeutungstragende spitze Klammern.
+- Mehrfach kodierte oder unbekannte Entities als Prüfsignale. [Messwerte und Fundstellen](berichte/Textpruefung.md)
 
 ## Prüfung und Veröffentlichung
 
-Der Rohdaten-Audit zählt Feldwerte unabhängig. Finalvalidierung und Datenbankvergleich verlangen gleiche Zeilenzahl, Feldzahlen und Inhaltsprüfsumme. Die zusätzliche Textprüfung berechnet die erwarteten neun Exportwerte aus jedem Originalobjekt und vergleicht alle Datenbankzeilen.
-
-MySQL verwendet `cards_staging` und `cards`, jeweils mit eigener DDL. Der Loader verarbeitet Pakete von 1.000 Zeilen, prüft Staging und ersetzt `cards` anschließend innerhalb einer Transaktion. Vor dem Commit werden Menge und Inhalt nochmals geprüft. Fehler lösen ein Rollback aus; der bisherige Suchbestand bleibt erhalten. Begrenzte Abrufe und absichtliche Exportfehler sind ausschließlich in `mtg_test` erlaubt.
-
-Jeder erfolgreiche Lauf erzeugt `final_summary.json`, `database_summary.json` und `quality_report.md` im Arbeitsverzeichnis. Die [Abnahme](berichte/Abnahme.md) dokumentiert einen konkreten geprüften Lauf. Neue Abrufe können andere Zahlen ergeben.
+- Rohdaten-Audit: unabhängige Zählung der Feldwerte.
+- Finalvalidierung und Datenbankvergleich: gleiche Zeilenzahl, Feldzähler und Inhaltsprüfsumme.
+- Textprüfung: neun erwartete Exportwerte aus jedem Originalobjekt mit allen MySQL-Zeilen vergleichen.
+- Eigene DDL für `cards_staging` und `cards`. Import in Paketen von 1.000 Zeilen.
+- Staging prüfen, `cards` in einer Transaktion ersetzen, Menge und Inhalt vor dem Commit erneut prüfen.
+- Rollback bei Fehlern erhält den bisherigen Suchbestand. Begrenzte Abrufe und absichtliche Exportfehler nur in `mtg_test`.
+- Nach erfolgreichem Lauf im Arbeitsverzeichnis: `final_summary.json`, `database_summary.json` und `quality_report.md`.
+- Messwerte aus einem konkreten Lauf. Neue Abrufe können abweichen. [Abnahme](berichte/Abnahme.md)
 
 ## Webanwendung
 
-Ein Suchfeld durchsucht Name, Text und Künstler gemeinsam mit parametrisierter SQL-Suche. `LIKE '%Suchtext%'` findet zusammenhängende Teiltexte mitten im Satz. SQL-Wildcards werden wörtlich maskiert. Die Suche ignoriert Groß-/Kleinschreibung, begrenzt die Ausgabe auf 50 Karten und weist auf weitere Treffer hin.
-
-Das Backend liest ausschließlich MySQL. Erst beim Aufklappen lädt `GET /cards/<id>` das vollständige `details_json` als `{"card": …}`. Unbekannte Felder und verschachtelte Listen bleiben sichtbar. HTML erscheint als Text; Zahlen wie 0 und boolesche Werte bleiben erhalten. Datenbankfehler ergeben HTTP 503, überlange Suchbegriffe HTTP 400.
-
-Auf der Startseite steht die Suche mittig, bei Treffern steht sie oben. Der Umschalter für Hell und Dunkel speichert die Einstellung im Browser. Kartenbilder lassen sich per Klick vergrößern und mit Escape schließen. Bei fehlenden oder defekten Bildern erscheint die lokale Kartenrückseite. [Bildquellen](Bildquellen.md)
+- Ein Suchfeld für Name, Kartentext und Künstler. Parametrisierte MySQL-Abfrage per `LIKE '%Suchtext%'`.
+- Teiltextsuchen ohne Beachtung der Groß-/Kleinschreibung. SQL-Wildcards als wörtliche Zeichen behandeln.
+- Maximal 50 Karten pro Ausgabe, mit Hinweis auf weitere Treffer.
+- Backend liest aus MySQL. `GET /cards/<id>` lädt erst beim Aufklappen das vollständige `details_json` als `{"card": …}`.
+- Unbekannte Felder und verschachtelte Listen sichtbar. HTML als Text, Zahlen wie 0 und boolesche Werte bleiben erhalten.
+- HTTP 503 bei Datenbankfehlern, HTTP 400 bei überlangen Suchbegriffen.
+- Suchfeld mittig auf der Startseite, oberhalb der Treffer in der Ergebnisansicht. Hell/Dunkel-Einstellung im Browser gespeichert.
+- Kartenbilder per Klick vergrößern, mit Escape schließen. Lokale Kartenrückseite bei fehlendem oder defektem Bild. [Bildquellen](Bildquellen.md)
 
 ## Betriebsumfang
 
-Eine VM betreibt einen HDFS-DataNode mit Replikationsfaktor 1, Spark `local[2]` mit 2 GB Treiberspeicher und den Airflow SequentialExecutor. MySQL nutzt einen 2-GB-Buffer-Pool. Compose-Volumes speichern HDFS, MySQL, Airflow-Metadaten und Arbeitsdateien. Die Oberflächen sind über Loopback und SSH-Tunnel erreichbar. [Betriebsanleitung](Betrieb.md)
+- Eine VM mit einem HDFS-DataNode, Replikationsfaktor 1.
+- Spark `local[2]` mit 2 GB Treiberspeicher, Airflow SequentialExecutor, MySQL-Buffer-Pool mit 2 GB.
+- Compose-Volumes für HDFS, MySQL, Airflow-Metadaten und Arbeitsdateien.
+- Zugriff auf die Oberflächen über Loopback und SSH-Tunnel. [Betriebsanleitung](Betrieb.md)

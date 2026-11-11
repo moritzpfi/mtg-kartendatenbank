@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="1200" height="720" role="img" aria-labelledby="title desc">
+  <title id="title">UML-Aktivitätsdiagramm des Airflow-DAGs mtg_cards</title>
+  <desc id="desc">Die fünf Airflow-Tasks rufen Karten ab, bereinigen sie, prüfen den Finalbestand, laden MySQL und prüfen den Export. Notizen beschreiben die drei Datenmodelle.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M2 2 10 6 2 10" fill="none" stroke="#36536a" stroke-width="1.6"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: "Segoe UI", Arial, sans-serif; fill: #182a38; }
+    .title { font-size: 36px; font-weight: 700; }
+    .section { font-size: 18px; font-weight: 700; fill: #36536a; }
+    .task { fill: #edf5fd; stroke: #7394ae; stroke-width: 1.5; }
+    .task-id { font-family: Consolas, monospace; font-size: 23px; font-weight: 700; }
+    .label { font-size: 20px; }
+    .flow { fill: none; stroke: #36536a; stroke-width: 2; marker-end: url(#arrow); }
+    .note-link { fill: none; stroke: #658172; stroke-width: 1.8; stroke-dasharray: 5 5; }
+    .note { fill: #eef7f2; stroke: #658172; stroke-width: 1.5; }
+    .fold { fill: none; stroke: #658172; stroke-width: 1.5; }
+    .note-title { font-size: 21px; font-weight: 700; }
+  </style>
+  <rect width="1200" height="720" fill="#fff"/>
+  <text x="48" y="64" class="title">Vom API-Abruf zum geprüften Suchbestand</text>
+  <text x="48" y="111" class="section">AIRFLOW-DAG · mtg_cards</text>
+  <text x="674" y="111" class="section">DATENMODELLE</text>
+
+  <circle cx="306" cy="143" r="9" fill="#182a38"/>
+  <path class="flow" d="M306 153v25"/>
+  <path class="flow" d="M306 246v27"/>
+  <path class="flow" d="M306 341v27"/>
+  <path class="flow" d="M306 436v27"/>
+  <path class="flow" d="M306 531v27"/>
+  <path class="flow" d="M306 626v28"/>
+  <circle cx="306" cy="668" r="12" fill="#fff" stroke="#182a38" stroke-width="2"/>
+  <circle cx="306" cy="668" r="7" fill="#182a38"/>
+
+  <g text-anchor="middle">
+    <rect class="task" x="48" y="178" width="516" height="68" rx="13"/>
+    <text class="task-id" x="306" y="205">fetch_to_hdfs_raw</text>
+    <text class="label" x="306" y="230">MTG-API seitenweise abrufen und sichern</text>
+
+    <rect class="task" x="48" y="273" width="516" height="68" rx="13"/>
+    <text class="task-id" x="306" y="300">transform_to_hdfs_final</text>
+    <text class="label" x="306" y="325">Karten mit PySpark prüfen und bereinigen</text>
+
+    <rect class="task" x="48" y="368" width="516" height="68" rx="13"/>
+    <text class="task-id" x="306" y="395">validate_final</text>
+    <text class="label" x="306" y="420">Parquet lesen, Zeilenzahl und Inhalt prüfen</text>
+
+    <rect class="task" x="48" y="463" width="516" height="68" rx="13"/>
+    <text class="task-id" x="306" y="490">load_database</text>
+    <text class="label" x="306" y="515">Staging prüfen, Suchbestand per Transaktion ersetzen</text>
+
+    <rect class="task" x="48" y="558" width="516" height="68" rx="13"/>
+    <text class="task-id" x="306" y="585">validate_database</text>
+    <text class="label" x="306" y="610">MySQL mit Finalbestand vergleichen</text>
+  </g>
+
+  <path class="note-link" d="M564 210h110 M564 309h110 M564 497h110"/>
+  <path class="note" d="M674 164h458l20 20v72H674Z"/>
+  <path class="fold" d="M1132 164v20h20"/>
+  <text class="note-title" x="692" y="192">HDFS Raw · JSON</text>
+  <text class="label" x="692" y="219">Unveränderte API-Antworten pro Seite</text>
+  <text class="label" x="692" y="243">Manifest mit Prüfsummen pro Datei</text>
+
+  <path class="note" d="M674 269h458l20 20v98H674Z"/>
+  <path class="fold" d="M1132 269v20h20"/>
+  <text class="note-title" x="692" y="297">HDFS Final · Parquet</text>
+  <text class="label" x="692" y="324">Eine Zeile pro API-ID mit neun Spalten</text>
+  <text class="label" x="692" y="348">Suchfelder, Originalobjekt und</text>
+  <text class="label" x="692" y="372">bereinigte Detailkopie</text>
+
+  <path class="note" d="M674 451h458l20 20v72H674Z"/>
+  <path class="fold" d="M1132 451v20h20"/>
+  <text class="note-title" x="692" y="479">MySQL · Suchdatenbank</text>
+  <text class="label" x="692" y="506">cards_staging für den Import</text>
+  <text class="label" x="692" y="530">cards für die Websuche</text>
+</svg>

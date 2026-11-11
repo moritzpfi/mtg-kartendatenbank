@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 665" width="1200" height="665" role="img" aria-labelledby="title desc">
+  <title id="title">UML-Sequenzdiagramm der MTG-Websuche</title>
+  <desc id="desc">Der Browser sendet einen Suchbegriff an Flask. Flask fragt die MySQL-Tabelle cards ab und liefert die HTML-Trefferliste. Beim Aufklappen einer Karte lädt der Browser die bereinigten Kartendetails separat.</desc>
+  <defs>
+    <marker id="call" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M1 1 11 6 1 11Z" fill="#36536a"/>
+    </marker>
+    <marker id="return" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M2 2 10 6 2 10" fill="none" stroke="#36536a" stroke-width="1.6"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: "Segoe UI", Arial, sans-serif; fill: #182a38; }
+    .title { font-size: 36px; font-weight: 700; }
+    .participant { fill: #edf5fd; stroke: #7394ae; stroke-width: 1.5; }
+    .participant-name { font-size: 23px; font-weight: 700; }
+    .message { font-size: 20px; }
+    .lifeline { stroke: #7394ae; stroke-width: 1.7; stroke-dasharray: 6 6; }
+    .call { fill: none; stroke: #36536a; stroke-width: 2; marker-end: url(#call); }
+    .return { fill: none; stroke: #36536a; stroke-width: 2; stroke-dasharray: 6 4; marker-end: url(#return); }
+    .fragment { fill: none; stroke: #7394ae; stroke-width: 1.5; }
+    .condition { font-size: 18px; fill: #36536a; }
+  </style>
+  <rect width="1200" height="665" fill="#fff"/>
+  <text x="48" y="64" class="title">Websuche und Kartendetails</text>
+
+  <path class="lifeline" d="M145 153v480 M600 153v480 M1055 153v480"/>
+  <g text-anchor="middle">
+    <rect class="participant" x="48" y="104" width="194" height="49"/>
+    <text class="participant-name" x="145" y="136">Browser</text>
+    <rect class="participant" x="503" y="104" width="194" height="49"/>
+    <text class="participant-name" x="600" y="136">Flask</text>
+    <rect class="participant" x="958" y="104" width="194" height="49"/>
+    <text class="participant-name" x="1055" y="136">MySQL</text>
+
+    <text class="message" x="372" y="193">Suchbegriff senden · GET /?q=Manta</text>
+    <path class="call" d="M145 205H600"/>
+    <text class="message" x="827" y="236">cards nach Name, Text oder Künstler filtern</text>
+    <path class="call" d="M600 248h455"/>
+    <text class="message" x="827" y="279">Passende Karten</text>
+    <path class="return" d="M1055 291H600"/>
+    <text class="message" x="372" y="322">HTML-Trefferliste</text>
+    <path class="return" d="M600 334H145"/>
+  </g>
+
+  <rect class="fragment" x="48" y="367" width="1104" height="241"/>
+  <path d="M48 367h65v20l-11 10H48Z" fill="#edf5fd" stroke="#7394ae" stroke-width="1.5"/>
+  <text class="condition" x="60" y="388" font-weight="700">opt</text>
+  <text class="condition" x="164" y="388">[Kartendetails werden aufgeklappt]</text>
+  <g text-anchor="middle">
+    <text class="message" x="372" y="431">Details abrufen · GET /cards/&lt;id&gt;</text>
+    <path class="call" d="M145 443H600"/>
+    <text class="message" x="827" y="474">details_json zur API-ID lesen</text>
+    <path class="call" d="M600 486h455"/>
+    <text class="message" x="827" y="517">Bereinigtes Kartenobjekt</text>
+    <path class="return" d="M1055 529H600"/>
+    <text class="message" x="372" y="560">JSON für die Detailansicht</text>
+    <path class="return" d="M600 572H145"/>
+  </g>
+</svg>

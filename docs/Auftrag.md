@@ -1,6 +1,7 @@
 # Prüfungsauftrag und Abgabe
 
-Prüfungsprojekt im Wintersemester 2026/27. MySQL, Parquet und die Bereinigungsregeln sind Entscheidungen des Projekts.
+- Wintersemester 2026/27.
+- Projektentscheidungen: MySQL, Parquet und Bereinigungsregeln.
 
 ## Fachlicher Auftrag
 
@@ -9,9 +10,10 @@ Prüfungsprojekt im Wintersemester 2026/27. MySQL, Parquet und die Bereinigungsr
 - Eine HTML-Suche nach Name, Kartentext oder Künstler bereitstellen.
 - Den gesamten Ablauf automatisieren.
 
-Teilmengen dienen Entwicklungstests. Die fertige Datenkette muss den vollständigen Bestand verarbeiten. Die Bereinigung dokumentiert gefundene Fehler und Änderungen. Eine feste Bereinigungsquote ist nicht vorgegeben. Gleiche Namen verschiedener Druckvarianten sind keine Dubletten.
-
-Die technische Umsetzung steht im [Workflow](Workflow.md), die Nachweise in der [Abnahme](berichte/Abnahme.md).
+- Vollständiger Bestand für die Abgabe, Teilmengen für Entwicklungstests.
+- Bereinigung nach Befund. Fehler und Änderungen dokumentieren. Bereinigungsquote offen.
+- Gleichnamige Druckvarianten anhand der API-ID unterscheiden.
+- [Workflow](Workflow.md) · [Abnahme](berichte/Abnahme.md)
 
 ## Abzugebende Dateien
 
@@ -22,12 +24,12 @@ Die technische Umsetzung steht im [Workflow](Workflow.md), die Nachweise in der 
 
 ## Präsentation und Termine
 
-Zum Vortrag den Workflow starten, während der Ausführung Quelle, Schritte und Datenmodelle in Raw, Final und Frontend erklären und anschließend die Suche demonstrieren. Die Prüfungsfolien nennen keine feste Vortragsdauer, Folienzahl oder Punktegewichtung.
-
-- Abgabe bis **20.11.2026, 23:59 Uhr** an **contact@marcel-mittelstaedt.com**. Die Folien nennen Dropbox oder Google Drive als Bereitstellungsmöglichkeiten.
-- Präsentationen am **23. oder 30.11.2026** von **13:00 bis 15:45 Uhr**. Den persönlichen Slot klären.
-- Den Eintrag in der auf Seite 75 der Prüfungsfolien verlinkten Themenliste prüfen.
-- Die Einführungsfolien nennen Vorlesungsteilnahme und abgeschlossene Übungen als persönliche Prüfungsvoraussetzungen.
+- Abgabe bis **20.11.2026, 23:59 Uhr** an **contact@marcel-mittelstaedt.com**, z. B. per Dropbox- oder Google-Drive-Link.
+- Präsentationen am **23. oder 30.11.2026**, jeweils **13:00–15:45 Uhr**. Persönlichen Termin klären.
+- Themenliste auf Seite 75 der Prüfungsfolien.
+- Live-Demo: Workflow starten, Quelle, Tasks und Datenmodelle (Raw, Final, Frontend) erklären, Suche vorführen.
+- Vortragsdauer, Folienzahl und Punktegewichtung laut Prüfungsfolien offen.
+- Voraussetzungen laut Einführung: Vorlesungsteilnahme und abgeschlossene Übungen.
 
 ## Originalquellen
 
@@ -35,4 +37,4 @@ Zum Vortrag den Workflow starten, während der Ausführung Quelle, Schritte und 
 - [Prüfungsfolien](<../../BigData/slides/winter_semester_2026-2027/5_Practical Exam.pdf>), Seiten 5–7, 47–53 und 75.
 - [Einführung](../../BigData/slides/winter_semester_2026-2027/0_Intoduction.pdf), Seite 17.
 
-Die Quellenverweise setzen die vorhandene lokale Ordnerstruktur mit dem Vorlesungsrepository neben dem Projekt voraus. Die Original-PDFs gehören nicht zum eigenen Quellcodepaket.
+- Original-PDFs im benachbarten Vorlesungsrepository, außerhalb des Abgabepakets.

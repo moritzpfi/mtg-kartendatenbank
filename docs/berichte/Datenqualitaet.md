@@ -1,12 +1,13 @@
 # Datenqualität und Exportnachweis
 
-Quellenstand **03.11.2026**, geprüft am **04.11.2026 um 17:12 UTC**. Lauf `airflow_ad6095f4d0fe289c92ad2548`.
-
-Bei der Wiederverarbeitung wurden **937 gespeicherte HDFS-Seiten** geprüft. Die SHA256-Prüfsummen stimmten mit dem Manifest überein. Alle Seiten ließen sich strikt als UTF-8 dekodieren und als JSON lesen. [Manifest und Vollvergleich](../nachweise/daten/live_verification.json)
+- Quellenstand **03.11.2026**, Prüfung **04.11.2026, 17:12 UTC**.
+- Lauf `airflow_ad6095f4d0fe289c92ad2548`, Wiederverarbeitung von **937 HDFS-Seiten**.
+- Alle SHA256-Prüfsummen entsprechen dem Manifest. Alle Seiten als striktes UTF-8 und JSON lesbar. [Manifest und Vollvergleich](../nachweise/daten/live_verification.json)
 
 ## Bestand und Änderungen
 
-Die Anteile beziehen sich auf **93.643 Rohdatensätze** und sind auf drei Nachkommastellen gerundet. Maßnahmen können dieselben Karten betreffen.
+- Basis: **93.643 Rohdatensätze**, gerundet auf drei Nachkommastellen.
+- Mehrere Maßnahmen pro Karte möglich.
 
 | Prüfung oder Maßnahme | Anzahl | Anteil am Rohbestand |
 | --- | ---: | ---: |
@@ -22,18 +23,18 @@ Die Anteile beziehen sich auf **93.643 Rohdatensätze** und sind auf drei Nachko
 | Zulässige Bild-URL von HTTP auf HTTPS umgestellt | 63.808 | 68,140 % |
 | Fehlende Bild-URL als NULL exportiert | 29.835 | 31,860 % |
 
-Bei Namen und IDs fiel kein Rand-Leerraum zum Entfernen an. Die Prüfung fand weder unbrauchbare numerische IDs noch nicht erlaubte Bild-URLs. In den sieben untersuchten Quellfeldern gab es keine expliziten JSON-NULLs, leeren oder ausschließlich aus Leerraum bestehenden Zeichenketten, Unicode-Ersatzzeichen oder unerwarteten C0-Steuerzeichen. Fehlende Schlüssel wurden separat erfasst. [Feldstatistik im Finalnachweis](../nachweise/daten/final_summary.json)
-
-Die 93.643 eindeutigen IDs verteilen sich auf 29.049 verschiedene Namen. Auf 17.510 mehrfach vorkommende Namen entfallen 82.104 Datensätze. Editionen und Druckvarianten bleiben anhand ihrer API-IDs getrennt.
+- 0 Namen oder IDs mit Rand-Leerraum, 0 unbrauchbare numerische IDs, 0 unzulässige Bild-URLs.
+- In sieben Quellfeldern je 0 explizite JSON-NULLs, leere Zeichenketten, reine Leerraumwerte, Unicode-Ersatzzeichen und unerwartete C0-Steuerzeichen.
+- Fehlende Schlüssel separat erfasst. [Feldstatistik im Finalnachweis](../nachweise/daten/final_summary.json)
+- 93.643 eindeutige IDs, 29.049 verschiedene Namen.
+- 82.104 Datensätze zu 17.510 mehrfach vorkommenden Namen. Editionen und Druckvarianten anhand der API-ID getrennt.
 
 ## Vergleich von Finalbestand und MySQL
 
-Zeilenzahl, Feldzähler und der Inhalts-Hash stimmen überein. Der Hash umfasst alle neun Exportspalten einschließlich `source_json` und `details_json`.
-
-`6fd429ff102969109804ca9bf55b0f2e95012cb3841a0cdfcf29b0ea8a51f286`
-
-`source_json` bewahrt das vollständige Originalobjekt. `details_json` enthält die bereinigte Kopie. Die Detailtextkorrekturen betreffen **166 verschiedene Karten (0,177 %)** und werden getrennt von der Vereinheitlichung der Suchfelder ausgewiesen. [Datenbanknachweis](../nachweise/daten/database_summary.json) · [Textprüfung](Textpruefung.md)
-
-Die Bildstatistik erfasst die von der API gelieferten URLs. Ob ein Bild erreichbar ist, zeigt sich beim Abruf im Browser. Die Konsistenzprüfung vergleicht die Exportwerte mit der Quelle, aus der auch die Spielregeln und Künstlerangaben stammen. [Bildquellen](../Bildquellen.md)
-
-Befehle zur Wiederholung stehen in der [Betriebsanleitung](../Betrieb.md).
+- Übereinstimmende Zeilenzahl, Feldzähler und Inhalts-Hash.
+- Hash über alle neun Exportspalten: `6fd429ff102969109804ca9bf55b0f2e95012cb3841a0cdfcf29b0ea8a51f286`
+- `source_json` enthält das Originalobjekt, `details_json` die bereinigte Kopie. Beide fließen in den Hash ein.
+- Detailtextkorrekturen bei **166 Karten (0,177 %)**, getrennt von der Vereinheitlichung der Suchfelder erfasst. [Datenbanknachweis](../nachweise/daten/database_summary.json) · [Textprüfung](Textpruefung.md)
+- Bildstatistik zählt die API-URLs. Die Erreichbarkeit zeigt sich beim Bildabruf im Browser. [Bildquellen](../Bildquellen.md)
+- Konsistenzprüfung gegen die API-Quelle, aus der auch Spielregeln und Künstlerangaben stammen.
+- [Befehle zur Wiederholung](../Betrieb.md)

@@ -1,18 +1,18 @@
 # MTG-Kartendatenbank
 
-Prüfungsprojekt Big Data, Wintersemester 2026/27. Airflow übernimmt Karten aus der MTG-API, sichert die Originale in HDFS, bereitet sie mit PySpark auf und veröffentlicht sie in MySQL. Die Webseite durchsucht Name, Kartentext und Künstler und zeigt alle gelieferten Kartendetails.
+- Prüfungsprojekt Big Data, Wintersemester 2026/27.
+- Airflow-Workflow: MTG-API → HDFS Raw → PySpark → HDFS Final → MySQL.
+- Websuche nach Name, Kartentext und Künstler, mit vollständigen Kartendetails.
 
 ## Dokumentation
 
-| Inhalt | Datei |
-| --- | --- |
-| Prüfungsauftrag und Abgabevorgaben | [Auftrag](docs/Auftrag.md) |
-| Datenweg, Datenmodell und Bereinigungsregeln | [Workflow](docs/Workflow.md) |
-| Einrichtung, VM-Zugriff und wiederholte Ausführung | [Betrieb](docs/Betrieb.md) |
-| Gemessene Bereinigung und Exportzahlen | [Datenqualität](docs/berichte/Datenqualitaet.md) |
-| Textprüfung vor und nach der Bereinigung | [Textprüfung](docs/berichte/Textpruefung.md) |
-| Abnahme mit Prüfnachweisen | [Abnahme](docs/berichte/Abnahme.md) |
-| PowerPoint und Vorführung | [Präsentation](praesentation/MTG_Projektvorstellung.pptx), [Leitfaden](docs/Praesentation.md) |
+- [Auftrag und Abgabe](docs/Auftrag.md)
+- [Workflow, Datenmodell und Bereinigungsregeln](docs/Workflow.md)
+- [Betrieb auf der Google-Cloud-VM und Airflow-Start](docs/Betrieb.md)
+- [Datenqualität und Exportzahlen](docs/berichte/Datenqualitaet.md)
+- [Textprüfung vor und nach der Bereinigung](docs/berichte/Textpruefung.md)
+- [Abnahme und Prüfnachweise](docs/berichte/Abnahme.md)
+- [Vortragsnotizen, UML und Live-Demo](praesentation/Sprechleitfaden.md)
 
 ## Abgabepaket
 
@@ -20,4 +20,6 @@ Prüfungsprojekt Big Data, Wintersemester 2026/27. Airflow übernimmt Karten aus
 python3 scripts/package_project.py
 ```
 
-Das Skript schreibt `abgabe/MTG_API_Abgabe.zip` mit Code, Dokumentation, Prüfnachweisen und PowerPoint. Zugangsdaten und Arbeitsdaten bleiben außerhalb des Pakets.
+- Ausgabe: `abgabe/MTG_API_Abgabe.zip`
+- Inhalt: Code, Dokumentation, Prüfnachweise und Vortragsunterlagen.
+- Ausgeschlossen: Zugangsdaten und Arbeitsdaten.
