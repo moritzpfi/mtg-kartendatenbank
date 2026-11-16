@@ -8,7 +8,7 @@ def main():
     root = Path(__file__).resolve().parent.parent
     target = root / "abgabe" / "MTG_API_Abgabe.zip"
     target.parent.mkdir(exist_ok=True)
-    excluded = {".git", ".venv", "__pycache__", "work", "abgabe", ".pytest_cache"}
+    excluded = {".git", ".venv", "__pycache__", "work", "intern", "abgabe", ".pytest_cache"}
     with ZipFile(target, "w", compression=ZIP_DEFLATED) as archive:
         for path in sorted(root.rglob("*")):
             relative = path.relative_to(root)

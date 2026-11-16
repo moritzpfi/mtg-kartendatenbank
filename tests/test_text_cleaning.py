@@ -3,7 +3,7 @@
 from copy import deepcopy
 import unittest
 
-from scripts.text_cleaning import add_audit, audit_summary, clean_card
+from scripts.cards import add_audit, audit_summary, clean_card
 
 
 class TextCleaningTests(unittest.TestCase):

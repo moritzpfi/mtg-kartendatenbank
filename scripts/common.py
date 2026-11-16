@@ -4,24 +4,10 @@ import json
 import os
 from pathlib import Path
 import re
-from urllib.parse import quote, urlsplit, urlunsplit
+from urllib.parse import quote
 
 import pymysql
 import requests
-
-
-def normalize_image_url(value):
-    if not isinstance(value, str) or not value.strip():
-        return None
-    try:
-        parsed = urlsplit(value.strip())
-        if (parsed.scheme not in ("http", "https")
-                or parsed.hostname not in ("gatherer.wizards.com", "gatherer-static.wizards.com")
-                or parsed.username or parsed.password or parsed.port not in (None, 80, 443)):
-            return None
-        return urlunsplit(("https", parsed.hostname, parsed.path, parsed.query, ""))
-    except ValueError:
-        return None
 
 
 def run_directory(run_id):

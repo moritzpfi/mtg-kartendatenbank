@@ -67,7 +67,6 @@ input, button { font: inherit; }
 .image-unavailable .card-art { display: none; }
 .card-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 h2 { margin: 0; font-size: 18px; line-height: 1.35; font-weight: 600; }
-.set { flex-shrink: 0; font-size: 11px; color: var(--muted); }
 .artist { font-size: 12px; color: var(--muted); margin: 6px 0 18px; }
 .card-data { border-top: 1px solid var(--line); padding-top: 12px; font-size: 13px; }
 summary { cursor: pointer; width: fit-content; }
@@ -121,7 +120,4 @@ body:has(dialog[open]) { overflow: hidden; }
 .api-data { margin-top: 16px; font-size: 13px; overflow-wrap: anywhere; }
 .api-data dl { margin: 0; }
 .api-data dd { white-space: pre-wrap; }
-.api-data dd > dl { margin-left: 12px; border-left: 1px solid var(--line); padding-left: 12px; }
-.api-data ul { padding-left: 18px; margin: 8px 0; }
-.api-data li { margin-bottom: 16px; }
 .retry-details { display: block; margin-top: 10px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); color: var(--ink); cursor: pointer; }

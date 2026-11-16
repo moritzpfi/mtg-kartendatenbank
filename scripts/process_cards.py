@@ -8,18 +8,10 @@ import logging
 import os
 from pathlib import Path
 
-from scripts.common import Hdfs, connect_database, normalize_image_url, run_directory, save_json
-from scripts.data_quality import audit_raw, write_quality_report
-from scripts.text_cleaning import clean_card
+from scripts.cards import COLUMNS, SCHEMA_VERSION, audit_raw, canonical_cards, write_quality_report
+from scripts.common import Hdfs, connect_database, run_directory, save_json
 
 LOG = logging.getLogger(__name__)
-COLUMNS = ("id", "multiverseid", "name", "card_text", "artist", "set_code", "image_url", "source_json", "details_json")
-
-
-def canonical_cards(page_bytes):
-    """Keep every source property, including nested and previously unknown fields."""
-    page = json.loads(bytes(page_bytes).decode("utf-8"))
-    return [json.dumps(card, ensure_ascii=False, sort_keys=True, separators=(",", ":")) for card in page["cards"]]
 
 
 def spark_session():
@@ -54,40 +46,30 @@ def transform(run_id):
         raise ValueError("Raw snapshot has not been completed in HDFS")
     quality = audit_raw(hdfs, manifest)
     unexpected_types = [field for field, counts in quality["fields"].items()
-                        if field != "multiverseid" and counts.get("non_string", 0)]
+                        if counts.get("non_string", 0)]
     if unexpected_types:
         raise ValueError("Unexpected raw field types; inspect data_quality.json: " + ", ".join(unexpected_types))
     spark = spark_session()
     spark.sparkContext.setLogLevel("WARN")
     try:
-        card_schema = StructType([StructField(name, StringType())
-                                  for name in ("id", "multiverseid", "name", "text", "artist", "set", "imageUrl")])
+        card_schema = StructType([StructField(name, StringType()) for name in COLUMNS])
         files = [f"{hdfs.root}/raw/{run_id}/{page['file']}" for page in manifest["pages"]]
         originals = (spark.read.format("binaryFile").load(files)
-                     .select(F.explode(F.udf(canonical_cards, ArrayType(StringType()))("content")).alias("source_json")))
-        raw = (originals.select(F.from_json("source_json", card_schema, {"mode": "FAILFAST"}).alias("card"), "source_json")
-               .select("card.*", "source_json").cache())
+                     .select(F.explode(F.udf(canonical_cards, ArrayType(StringType()))("content")).alias("reduced_json")))
+        raw = (originals.select(F.from_json("reduced_json", card_schema, {"mode": "FAILFAST"}).alias("card"))
+               .select("card.*").cache())
         raw_count = raw.count()
         if raw_count != manifest["raw_count"]:
             raise ValueError("Parsed count differs from the raw download manifest")
         valid = (raw.filter(F.col("id").isNotNull() & (F.length(F.trim("id")) > 0)
                             & F.col("name").isNotNull() & (F.length(F.trim("name")) > 0))
-                 .select(F.trim("id").alias("id"),
-                         F.when(F.col("multiverseid").rlike(r"^[0-9]+$"),
-                                F.col("multiverseid").cast("long")).alias("multiverseid"),
-                         F.trim("name").alias("name"),
-                         F.coalesce("text", F.lit("")).alias("card_text"),
-                         F.coalesce("artist", F.lit("")).alias("artist"),
-                         F.coalesce("set", F.lit("")).alias("set_code"),
-                         F.udf(normalize_image_url, StringType())("imageUrl").alias("image_url"),
-                         F.col("source_json"),
-                         F.udf(cleaned_json, StringType())("source_json").alias("details_json")).cache())
+                 .select(*COLUMNS).cache())
         valid_count = valid.count()
         unique = valid.dropDuplicates(list(COLUMNS)).cache()
         conflicts = unique.groupBy("id").count().filter(F.col("count") > 1).limit(1).count()
         if conflicts:
             raise ValueError("Conflicting records for one API id; nothing published")
-        if unique.filter((F.length("id") > 128) | (F.length("set_code") > 32)).limit(1).count():
+        if unique.filter(F.length("id") > 128).limit(1).count():
             raise ValueError("API value exceeds the documented database schema")
         final_count = unique.count()
         raw.unpersist()
@@ -97,7 +79,8 @@ def transform(run_id):
         final_counts = unique.agg(
             F.sum((F.length("card_text") == 0).cast("long")).alias("empty_card_text"),
             F.sum((F.length("artist") == 0).cast("long")).alias("empty_artist"),
-            F.sum(F.col("multiverseid").isNull().cast("long")).alias("null_multiverseid"),
+            F.sum((F.length("flavor") == 0).cast("long")).alias("empty_flavor"),
+            F.sum((F.col("subtypes") == "[]").cast("long")).alias("empty_subtypes"),
             F.sum(F.col("image_url").isNotNull().cast("long")).alias("with_image_url"),
             F.sum(F.col("image_url").isNull().cast("long")).alias("without_image_url"),
         ).first().asDict()
@@ -106,7 +89,8 @@ def transform(run_id):
             expected_counts = {
                 "empty_card_text": changes.get("missing_text_to_empty", 0) + quality["fields"]["text"].get("empty_string", 0),
                 "empty_artist": changes.get("missing_artist_to_empty", 0) + quality["fields"]["artist"].get("empty_string", 0),
-                "null_multiverseid": changes.get("multiverseid_missing", 0) + changes.get("multiverseid_invalid_to_null", 0),
+                "empty_flavor": changes.get("missing_flavor_to_empty", 0) + quality["fields"]["flavor"].get("empty_string", 0),
+                "empty_subtypes": changes.get("missing_subtypes_to_empty", 0) + quality["fields"]["subtypes"].get("empty_array", 0),
                 "with_image_url": changes.get("image_url_available", 0),
                 "without_image_url": final_count - changes.get("image_url_available", 0),
             }
@@ -118,7 +102,7 @@ def transform(run_id):
         written = spark.read.parquet(path).select(*COLUMNS)
         checksum = digest_rows(written.orderBy("id").toLocalIterator())
         summary = {
-            "run_id": run_id, "development": manifest["development"],
+            "run_id": run_id, "development": manifest["development"], "schema_version": SCHEMA_VERSION,
             "source": manifest["source"], "source_total_counts": manifest["total_counts"],
             "source_pages": len(manifest["pages"]), "raw_count": raw_count,
             "invalid_count": raw_count - valid_count, "duplicate_count": valid_count - final_count,
@@ -129,6 +113,12 @@ def transform(run_id):
             "text_cleaning": quality["text_cleaning"],
             "final_field_counts": final_counts,
             "export_columns": list(COLUMNS),
+            "reduction": {
+                "raw_json_bytes": quality["raw_page_bytes"],
+                "final_parquet_bytes": sum(entry["length"] for entry in hdfs.list(path)
+                                           if entry["pathSuffix"].endswith(".parquet")),
+                "full_card_objects_stored": False,
+            },
         }
         hdfs.put(path + "/_summary.json", json.dumps(summary).encode("utf-8"))
         save_json(run_directory(run_id) / "final_summary.json", summary)
@@ -138,19 +128,20 @@ def transform(run_id):
         spark.stop()
 
 
-def cleaned_json(source_json):
-    card, _, _ = clean_card(json.loads(source_json))
-    return json.dumps(card, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
-
-
 def final_data(spark, run_id):
     hdfs = Hdfs()
     path = f"{hdfs.root}/final/{run_id}"
     summary = json.loads(hdfs.read(path + "/_summary.json"))
-    data = spark.read.parquet(path).select(*COLUMNS)
+    if summary.get("schema_version") != SCHEMA_VERSION or summary.get("export_columns") != list(COLUMNS):
+        raise ValueError("Final snapshot uses an older schema; run transform again from preserved Raw data")
+    data = spark.read.parquet(path)
+    if data.columns != list(COLUMNS):
+        raise ValueError("Final Parquet must contain exactly the seven reduced columns")
     count = data.count()
-    if data.filter(data.details_json.isNull()).limit(1).count():
-        raise ValueError("Final snapshot is missing cleaned detail objects")
+    from pyspark.sql import functions as F
+    from functools import reduce
+    if data.filter(reduce(lambda a, b: a | b, [F.col(name).isNull() for name in COLUMNS if name != "image_url"])).limit(1).count():
+        raise ValueError("Final snapshot is missing a required export value")
     checksum = digest_rows(data.orderBy("id").toLocalIterator())
     if count != summary["final_count"] or checksum != summary["sha256"]:
         raise ValueError("Final Parquet data does not match its summary")
@@ -164,15 +155,9 @@ def ensure_schema(connection):
     with connection.cursor() as cursor:
         for table in ("cards", "cards_staging"):
             cursor.execute((root / "sql" / (table + ".sql")).read_text(encoding="utf-8"))
-            cursor.execute(f"SHOW COLUMNS FROM {table} LIKE 'image_url'")
-            if cursor.fetchone() is None:
-                cursor.execute(f"ALTER TABLE {table} ADD COLUMN image_url TEXT NULL")
-            cursor.execute(f"SHOW COLUMNS FROM {table} LIKE 'source_json'")
-            if cursor.fetchone() is None:
-                cursor.execute(f"ALTER TABLE {table} ADD COLUMN source_json MEDIUMTEXT NULL")
-            cursor.execute(f"SHOW COLUMNS FROM {table} LIKE 'details_json'")
-            if cursor.fetchone() is None:
-                cursor.execute(f"ALTER TABLE {table} ADD COLUMN details_json MEDIUMTEXT NULL")
+            cursor.execute(f"SHOW COLUMNS FROM {table}")
+            if [row[0] for row in cursor.fetchall()] != list(COLUMNS):
+                raise ValueError("Existing schema needs the backed-up migration described in docs/Workflow.md")
     connection.commit()
 
 
@@ -194,9 +179,10 @@ def database_field_counts(connection, table="cards"):
         raise ValueError("Unknown table")
     with connection.cursor() as cursor:
         cursor.execute(f"SELECT SUM(CHAR_LENGTH(card_text)=0),SUM(CHAR_LENGTH(artist)=0),"
-                       f"SUM(multiverseid IS NULL),SUM(image_url IS NOT NULL),SUM(image_url IS NULL) FROM {table}")
+                       f"SUM(CHAR_LENGTH(flavor)=0),SUM(subtypes='[]'),"
+                       f"SUM(image_url IS NOT NULL),SUM(image_url IS NULL) FROM {table}")
         values = cursor.fetchone()
-    return dict(zip(("empty_card_text", "empty_artist", "null_multiverseid", "with_image_url", "without_image_url"),
+    return dict(zip(("empty_card_text", "empty_artist", "empty_flavor", "empty_subtypes", "with_image_url", "without_image_url"),
                     (int(value or 0) for value in values)))
 
 

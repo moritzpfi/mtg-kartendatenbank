@@ -5,6 +5,7 @@ import json
 from flask import Flask, jsonify, render_template, request
 import pymysql
 
+from scripts.cards import WEB_CARD_FIELDS
 from scripts.common import connect_database
 
 app = Flask(__name__)
@@ -33,7 +34,7 @@ def index():
                     count = cursor.fetchone()["total"]
                     if query:
                         cursor.execute(
-                            "SELECT id,multiverseid,name,card_text,artist,set_code,image_url FROM cards "
+                            "SELECT id,name,card_text,artist,image_url FROM cards "
                             "WHERE LOWER(name) LIKE LOWER(%s) ESCAPE '!' "
                             "OR LOWER(card_text) LIKE LOWER(%s) ESCAPE '!' "
                             "OR LOWER(artist) LIKE LOWER(%s) ESCAPE '!' ORDER BY name,id LIMIT 51",
@@ -73,13 +74,14 @@ def card_details(card_id):
         connection = connect_database(test=os.environ.get("MTG_WEB_TEST_DATABASE") == "1", dictionary=True)
         try:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT details_json FROM cards WHERE id=%s", (card_id,))
+                cursor.execute("SELECT name,subtypes,card_text AS text,flavor,artist FROM cards WHERE id=%s", (card_id,))
                 row = cursor.fetchone()
         finally:
             connection.close()
-        if row is None or not row["details_json"]:
+        if row is None:
             return jsonify(message="Keine weiteren Kartendaten verfügbar."), 404
-        return jsonify(card=json.loads(row["details_json"]))
+        row["subtypes"] = json.loads(row["subtypes"])
+        return jsonify(card={field: row[field] for field in WEB_CARD_FIELDS})
     except (pymysql.MySQLError, ValueError):
         app.logger.exception("Card details unavailable")
         return jsonify(message="Die Kartendaten sind gerade nicht erreichbar. Bitte erneut versuchen."), 503

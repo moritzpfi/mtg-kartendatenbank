@@ -12,9 +12,8 @@ import unicodedata
 
 import pymysql
 
-from scripts.common import Hdfs, connect_database, normalize_image_url, run_directory, save_json
-from scripts.process_cards import COLUMNS
-from scripts.text_cleaning import add_audit, audit_summary, report_lines
+from scripts.cards import COLUMNS, add_audit, audit_summary, normalize_image_url, report_lines
+from scripts.common import Hdfs, connect_database, run_directory, save_json
 
 LOG = logging.getLogger(__name__)
 PRIMARY = {"name", "text", "artist"}
@@ -73,9 +72,9 @@ def write_report(report, path):
               "- Geschützte Leerzeichen können typografisch korrekt sein, etwa vor einem französischen Doppelpunkt.",
               "- Spitze Klammern sind teilweise echter Inhalt: beispielsweise `<Token.Name=Faction>` im Anekdotentext von "
               "`Steel Overseer` oder `<sad trombone noises>` in einem Regelhinweis. Ein pauschales Entfernen vermeintlicher HTML-Tags würde Inhalt löschen.", "",
-              "Die Originalfelder bleiben in Raw und `source_json` unverändert. `details_json` enthält die während der PySpark-Verarbeitung bereinigte Kopie. "
-              "Die Tabelle vergleicht die Originalauffälligkeiten mit dem bereinigten Zustand. Diese lesende Prüfung selbst verändert keine Kartendaten. "
-              "Das Frontend zeigt die bereinigten Detailwerte als Text an und führt sie nicht als HTML aus.", "",
+              "Die Originalfelder bleiben unverändert in HDFS Raw. Die Tabelle vergleicht sie mit der im Arbeitsspeicher bereinigten Kopie vor der Feldauswahl. "
+              "Final und MySQL speichern nur die fünf Anzeigefelder plus ID und Bild-URL. Korrekturen an verworfenen Feldern zählen nur zur Quellenprüfung. "
+              "Diese lesende Prüfung selbst verändert keine Kartendaten. Das Frontend zeigt Texte ohne HTML-Ausführung.", "",
               "## Gemessene Beispiele", "",
               "Die folgenden Ausschnitte stammen aus diesem Lauf. Nicht-ASCII-Zeichen erscheinen als Python-Escapes, damit unsichtbare Zeichen erkennbar sind. "
               "Die vollständigen Beispieltexte und Feldzähler stehen im JSON-Nachweis.", ""]
@@ -86,17 +85,17 @@ def write_report(report, path):
         snippet = ascii(example["value"][:260])
         lines += [f"- `{key}`: {example['name']} (`{example['id']}`).", "", "```text", snippet, "```", ""]
     lines += ["## Vergleich mit dem Datenbankexport", "",
-              f"Verglichen wurden {report['database']['count']} MySQL-Zeilen in allen neun Spalten einschließlich `source_json` und `details_json`. "
+              f"Verglichen wurden {report['database']['count']} MySQL-Zeilen in allen sieben reduzierten Exportspalten. "
               f"Abweichungen: **{report['database']['mismatches']}**. Fehlende erwartete IDs: **{report['database']['missing_expected_ids']}**. "
               "Die erwarteten Werte wurden direkt aus den Originalobjekten nach den dokumentierten Exportregeln berechnet. "
               "Dieser Vergleich belegt die korrekte Übernahme, nicht die Fehlerfreiheit der Quelle.", "",
               "## Wiederholen", "",
-              "Die Befehle für die Prüfung des gespeicherten HDFS-Snapshots und des zugehörigen MySQL-Bestands stehen in `docs/Betrieb.md`.", "",
+              "Der Bericht gehört zum gespeicherten HDFS-Snapshot und dem daraus erzeugten MySQL-Bestand.", "",
               "## Aussagegrenzen", "",
               "Die Prüfung erkennt die dokumentierten technischen Muster. Sie prüft nicht jede Übersetzung auf Rechtschreibung oder jede Spielregel auf fachliche Richtigkeit. "
               "Auch `originalText` kann historische Schreibweisen für Manasymbole enthalten. Umlaute, nichtlateinische Schrift, "
               "Spielzeichen wie `{U}`, `{T}` und echte Zeilenumbrüche bleiben erhalten. Null Treffer bei einem Suchmuster beweisen keine allgemeine Fehlerfreiheit.", "",
-              "Maschinenlesbare Feldzähler, Zeichen-Codes und begrenzte Beispieltexte: `docs/nachweise/daten/text_audit.json`.", ""]
+              f"Maschinenlesbare Feldzähler, Zeichen-Codes und begrenzte Beispieltexte: `{path.with_suffix('.json')}`.", ""]
     lines += report_lines(report["text_cleaning"])
     path.write_text("\n".join(lines), encoding="utf-8")
 
@@ -194,12 +193,10 @@ def audit(run_id):
             if not isinstance(identifier, str) or not identifier.strip() or not isinstance(name, str) or not name.strip():
                 totals["invalid_required"] += 1
                 continue
-            number = card.get("multiverseid")
-            number = int(number) if isinstance(number, (str, int)) and not isinstance(number, bool) and re.fullmatch(r"[0-9]+", str(number)) and int(number) <= 9223372036854775807 else None
-            values = [identifier.strip(), number, name.strip(), card.get("text") or "", card.get("artist") or "",
-                      card.get("set") or "", normalize_image_url(card.get("imageUrl")),
-                      json.dumps(card, ensure_ascii=False, sort_keys=True, separators=(",", ":")),
-                      json.dumps(cleaned, ensure_ascii=False, sort_keys=True, separators=(",", ":"))]
+            values = [identifier.strip(), name.strip(),
+                      json.dumps(cleaned.get("subtypes") or [], ensure_ascii=False, separators=(",", ":")),
+                      cleaned.get("text") or "", cleaned.get("flavor") or "", cleaned.get("artist") or "",
+                      normalize_image_url(cleaned.get("imageUrl"))]
             digest = row_hash(values)
             if values[0] in expected:
                 totals["duplicate_ids"] += 1
@@ -226,7 +223,7 @@ def audit(run_id):
         connection.close()
     report = {
         "run_id": run_id, "audited_at": datetime.now(timezone.utc).isoformat(),
-        "scope": "Every string in original and cleaned cards, including nested values. MySQL comparison covers all nine export columns; originals and cleaned details are compared separately through their expected canonical values.",
+        "scope": "Every original string and in-memory cleaned copy before projection. MySQL comparison covers exactly seven reduced export columns; full source objects exist only in HDFS Raw.",
         "source": manifest["source"], "verified_sha256_utf8_pages": len(manifest["pages"]),
         "counts": dict(totals), "missing_primary_keys": dict(missing),
         "cards_with_flags": dict(observed_cards),

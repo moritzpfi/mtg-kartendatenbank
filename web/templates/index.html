@@ -55,7 +55,7 @@
             <img class="card-art" src="{{ image_url }}" alt="{{ image_alt }}" loading="lazy" decoding="async" referrerpolicy="no-referrer">
             <span class="art-placeholder">Kein Kartenbild verfügbar</span>
           </button>
-          <div class="card-heading"><h2>{{ card.name }}</h2><span class="set">{{ card.set_code }}</span></div>
+          <div class="card-heading"><h2>{{ card.name }}</h2></div>
           <p class="artist">{{ card.artist or 'Künstler nicht angegeben' }}</p>
           <details class="card-data" data-card-id="{{ card.id }}"><summary>Kartendaten</summary>
             <div class="api-data"><p><a href="{{ url_for('card_details', card_id=card.id) }}">Kartendaten öffnen</a></p></div>
@@ -66,9 +66,9 @@
               <span class="art-placeholder">Kein Kartenbild verfügbar</span>
             </div>
             <div class="preview-info"><h2 id="card-dialog-title">{{ card.name }}</h2>
-              <p class="preview-meta">{{ card.set_code }}{% if card.artist %} · {{ card.artist }}{% endif %}</p>
+              <p class="preview-meta">{{ card.artist or 'Künstler nicht angegeben' }}</p>
               <p class="rules">{{ card.card_text or 'Kein Kartentext vorhanden.' }}</p>
-              <details class="card-data" data-card-id="{{ card.id }}"><summary>Alle Kartendaten</summary>
+              <details class="card-data" data-card-id="{{ card.id }}"><summary>Kartendaten</summary>
                 <div class="api-data"><p><a href="{{ url_for('card_details', card_id=card.id) }}">Kartendaten öffnen</a></p></div>
               </details>
             </div>

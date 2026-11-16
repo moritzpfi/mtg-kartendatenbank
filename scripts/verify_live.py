@@ -7,6 +7,7 @@ from urllib.parse import quote
 
 import requests
 
+from scripts.cards import COLUMNS, WEB_CARD_FIELDS
 from scripts.common import Hdfs, connect_database, run_directory, save_json
 from scripts.process_cards import database_field_counts, database_summary
 from scripts.audit_text import audit
@@ -21,6 +22,11 @@ def verify(run_id, web_url):
         raise ValueError("This verification requires a complete regular HDFS snapshot")
     connection = connect_database()
     try:
+        with connection.cursor() as cursor:
+            for table in ("cards", "cards_staging"):
+                cursor.execute(f"SHOW COLUMNS FROM {table}")
+                if [row[0] for row in cursor.fetchall()] != list(COLUMNS):
+                    raise ValueError("Database contains columns outside the reduced export")
         actual = database_summary(connection)
         if actual != {"count": final["final_count"], "sha256": final["sha256"]}:
             raise ValueError("Database differs from final snapshot")
@@ -53,18 +59,24 @@ def verify(run_id, web_url):
             raise AssertionError("No-match search did not return the expected message")
         detail_response = requests.get(web_url.rstrip("/") + "/cards/" + quote(searches[0]["expected_card_id_found"], safe=""), timeout=30)
         detail_response.raise_for_status()
-        if detail_response.json()["card"]["id"].strip() != searches[0]["expected_card_id_found"]:
-            raise AssertionError("Detail endpoint did not return the requested source card")
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT name,subtypes,card_text,flavor,artist FROM cards WHERE id=%s", (searches[0]["expected_card_id_found"],))
+            row = cursor.fetchone()
+            details = dict(zip(WEB_CARD_FIELDS, row))
+            details["subtypes"] = json.loads(details["subtypes"])
+        if detail_response.json()["card"] != details:
+            raise AssertionError("Detail endpoint did not return the five selected fields of the requested card")
         cleaned_examples = []
         for examples in text_audit["text_cleaning"]["examples"].values():
             identifier = examples[0]["id"]
             with connection.cursor() as cursor:
-                cursor.execute("SELECT details_json FROM cards WHERE id=%s", (identifier,))
-                expected = json.loads(cursor.fetchone()[0])
+                cursor.execute("SELECT name,subtypes,card_text,flavor,artist FROM cards WHERE id=%s", (identifier,))
+                expected = dict(zip(WEB_CARD_FIELDS, cursor.fetchone()))
+                expected["subtypes"] = json.loads(expected["subtypes"])
             response = requests.get(web_url.rstrip("/") + "/cards/" + quote(identifier, safe=""), timeout=30)
             response.raise_for_status()
-            if response.json()["card"] != expected:
-                raise AssertionError("HTTP details differ from the cleaned database object")
+            if response.json()["card"] != {field: expected.get(field) for field in WEB_CARD_FIELDS}:
+                raise AssertionError("HTTP details differ from the five selected cleaned database fields")
             cleaned_examples.append({"id": identifier, "status": response.status_code, "cleaned_object_matches": True})
     finally:
         connection.close()

@@ -1,4 +1,4 @@
-"""One daily DAG; every task processes the same immutable run identifier."""
+"""One manually triggered DAG; every task processes the same immutable run identifier."""
 
 from datetime import datetime, timedelta, timezone
 import hashlib
@@ -26,7 +26,7 @@ def execute_step(step, **context):
 
 with DAG(
     "mtg_cards", description="MTG API → HDFS raw → PySpark final → MySQL",
-    start_date=datetime(2026, 11, 1, tzinfo=timezone.utc), schedule="0 5 * * *",
+    start_date=datetime(2026, 11, 1, tzinfo=timezone.utc), schedule=None,
     catchup=False, max_active_runs=1,
     default_args={"owner": "mtg", "retries": 1, "retry_delay": timedelta(minutes=5)},
     tags=["mtg", "practical-exam"],

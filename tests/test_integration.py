@@ -8,10 +8,10 @@ from unittest.mock import patch
 import uuid
 from contextlib import contextmanager
 
+from scripts.cards import COLUMNS
 from scripts.common import Hdfs, connect_database
 from scripts.process_cards import database_summary, digest_rows, ensure_schema, process, publish_snapshot
 from web.app import app
-from scripts.text_cleaning import clean_card
 
 
 def put_fixture(run_id, cards):
@@ -40,10 +40,10 @@ class IntegrationTests(unittest.TestCase):
         self.connection.close()
 
     def test_publication_rolls_back_and_repeats_safely(self):
-        old = [("old", None, "Old snapshot", "", "", "OLD", None, '{"id":"old"}', '{"id":"old"}')]
+        old = [("old", "Old snapshot", "[]", "", "", "", None)]
         expected_old = {"final_count": 1, "sha256": digest_rows(old)}
         publish_snapshot(self.connection, old, expected_old)
-        new = [("new", 42, "New snapshot", "flying", "Künstler", "NEW", None, '{"id":"new"}', '{"id":"new"}')]
+        new = [("new", "New snapshot", "[]", "flying", "", "Künstler", None)]
         expected_new = {"final_count": 1, "sha256": digest_rows(new)}
         with self.assertRaisesRegex(RuntimeError, "Intentional"):
             publish_snapshot(self.connection, new, expected_new, fail_after_delete=True)
@@ -53,10 +53,10 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(database_summary(self.connection), {"count": 1, "sha256": expected_new["sha256"]})
 
     def test_partial_batch_publication_rolls_back_every_insert(self):
-        old = [("old", None, "Old snapshot", "", "", "OLD", None, '{"id":"old"}', '{"id":"old"}')]
+        old = [("old", "Old snapshot", "[]", "", "", "", None)]
         old_hash = digest_rows(old)
         publish_snapshot(self.connection, old, {"final_count": 1, "sha256": old_hash})
-        rows = [(f"new-{n:04}", None, "New", "", "", "NEW", None, '{}', '{}') for n in range(2001)]
+        rows = [(f"new-{n:04}", "New", "[]", "", "", "", None) for n in range(2001)]
         original_cursor = self.connection.cursor
         inserts = 0
 
@@ -91,8 +91,8 @@ class IntegrationTests(unittest.TestCase):
     def test_search_fields_escaping_and_input_validation(self):
         source = {"id": "test-id", "name": "Manta <script>alert(1)</script>", "rarity": "Common",
                   "legalities": [{"format": "Modern", "legality": "Legal"}]}
-        rows = [("test-id", None, "Manta <script>alert(1)</script>", "Flying 50%_", "Künstler Ö", "TST",
-                 "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=4711&type=card", json.dumps(source), json.dumps(source))]
+        rows = [("test-id", source["name"], '["Merfolk"]', "Flying 50%_", "A story", "Künstler Ö",
+                 "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=4711&type=card")]
         publish_snapshot(self.connection, rows, {"final_count": 1, "sha256": digest_rows(rows)})
         with patch.dict(os.environ, {"MTG_WEB_TEST_DATABASE": "1"}):
             client = app.test_client()
@@ -107,12 +107,15 @@ class IntegrationTests(unittest.TestCase):
             self.assertEqual(client.get("/").status_code, 200)
             self.assertEqual(client.get("/", query_string={"q": "x" * 201}).status_code, 400)
             self.assertIn("Keine Karte gefunden".encode(), client.get("/", query_string={"q": "' OR 1=1 --"}).data)
-            self.assertEqual(client.get("/cards/test-id").get_json()["card"], source)
+            self.assertEqual(client.get("/cards/test-id").get_json()["card"], {
+                "name": source["name"], "subtypes": ["Merfolk"], "text": "Flying 50%_", "flavor": "A story", "artist": "Künstler Ö",
+            })
 
     def test_transform_real_hdfs_and_mysql_with_edge_cases(self):
         run_id = "test_" + uuid.uuid4().hex
         card = {"id": "fixture-a", "name": " Manta ", "text": "Flying", "artist": None, "set": "TST"}
         other = {"id": "fixture-b", "name": "Other", "multiverseid": "123", "artist": "Künstler",
+                 "subtypes": ["Merfolk", "Wizard"], "flavor": "A story\n—Author",
                  "futureField": {"number": 0, "values": ["Ä", False, None]}, "legalities": [{"format": "Modern", "legality": "Legal"}],
                  "foreignNames": [{"name": "A\u0090", "text": "Vol\n\u0081À chaque fois &amp; Boo"}],
                  "rulings": [{"text": " <sad trombone noises> "}], "originalText": "{1}\u200b less"}
@@ -122,6 +125,9 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(summary["data_quality"]["verified_sha256_pages"], 1)
         self.assertEqual(summary["data_quality"]["changes"]["missing_artist_to_empty"], 2)
         self.assertEqual(summary["text_cleaning"]["changed_cards"], 1)
+        self.assertEqual(summary["export_columns"], list(COLUMNS))
+        self.assertFalse(summary["reduction"]["full_card_objects_stored"])
+        self.assertGreater(summary["reduction"]["raw_json_bytes"], 0)
         files = Hdfs().list(summary["hdfs_final_path"])
         self.assertTrue(all(entry["replication"] == 1 for entry in files if entry["pathSuffix"].endswith(".parquet")))
         process("validate-final", run_id)
@@ -130,12 +136,16 @@ class IntegrationTests(unittest.TestCase):
         process("load", run_id, test_database=True)
         process("validate-database", run_id, test_database=True)
         with self.connection.cursor() as cursor:
-            cursor.execute("SELECT source_json,details_json FROM cards WHERE id=%s", ("fixture-b",))
-            source, details = cursor.fetchone()
-            self.assertEqual(json.loads(source), other)
-            self.assertEqual(json.loads(details), clean_card(other)[0])
+            cursor.execute("SHOW COLUMNS FROM cards")
+            self.assertEqual([row[0] for row in cursor.fetchall()], list(COLUMNS))
+            cursor.execute("SELECT subtypes,flavor FROM cards WHERE id=%s", ("fixture-b",))
+            self.assertEqual(cursor.fetchone(), ('["Merfolk","Wizard"]', "A story\n—Author"))
+        raw = json.loads(Hdfs().read(f"{Hdfs().root}/raw/{run_id}/page_00001.json"))
+        self.assertEqual(raw["cards"][2], other)
         with patch.dict(os.environ, {"MTG_WEB_TEST_DATABASE": "1"}):
-            self.assertEqual(app.test_client().get("/cards/fixture-b").get_json()["card"], clean_card(other)[0])
+            self.assertEqual(app.test_client().get("/cards/fixture-b").get_json()["card"], {
+                "name": "Other", "subtypes": ["Merfolk", "Wizard"], "text": "", "flavor": "A story\n—Author", "artist": "Künstler",
+            })
         process("load", run_id, test_database=True)
 
     def test_conflicting_ids_prevent_publication(self):

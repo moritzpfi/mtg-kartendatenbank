@@ -4,16 +4,17 @@ import os
 from pathlib import Path
 import tempfile
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import MagicMock, Mock, patch
 
 import requests
 
 from scripts import fetch_cards
-from scripts.common import Hdfs, normalize_image_url, run_directory
-from scripts.data_quality import audit_raw, inspect_card, write_quality_report, FIELDS
+from scripts.cards import (COLUMNS, FIELDS, audit_raw, canonical_cards, inspect_card,
+                           normalize_image_url, reduced_card, write_quality_report)
+from scripts.common import Hdfs, run_directory
 from collections import Counter
 from web.app import escaped_like
-from scripts.process_cards import canonical_cards
+from scripts.process_cards import ensure_schema, final_data
 
 
 def response(cards, total, next_page=None, status=200):
@@ -30,18 +31,56 @@ def response(cards, total, next_page=None, status=200):
 
 
 class CoreTests(unittest.TestCase):
-    def test_full_card_payload_preserves_unknown_and_nested_fields(self):
+    def test_final_payload_only_retains_required_fields_without_changing_raw(self):
         card = {"id": "a", "name": "Künstler", "power": "*", "cmc": 0,
+                "subtypes": ["Merfolk", "Wizard"], "text": "{U}: Flying\nNext line", "flavor": "A <story> & more",
                 "futureField": {"enabled": False, "missing": None, "items": ["Ä", 3]},
+                "originalText": "Flying\u200b", "rulings": [{"text": " A ruling "}],
+                "foreignNames": [{"name": "\u0081Name", "text": "A &amp; B"}],
                 "legalities": [{"format": "Modern", "legality": "Legal"}]}
         page = json.dumps({"cards": [card]}, ensure_ascii=False).encode("utf-8")
         payloads = canonical_cards(page)
-        self.assertEqual(json.loads(payloads[0]), card)
+        self.assertEqual(json.loads(payloads[0]), {
+            "id": "a", "name": "Künstler", "subtypes": '["Merfolk","Wizard"]',
+            "card_text": "{U}: Flying\nNext line", "flavor": "A <story> & more", "artist": "", "image_url": None,
+        })
+        self.assertEqual(json.loads(page)["cards"][0], card)
+        self.assertEqual(set(json.loads(payloads[0])), set(COLUMNS))
         reordered = dict(reversed(list(card.items())))
         self.assertEqual(canonical_cards(json.dumps({"cards": [reordered]}).encode())[0], payloads[0])
 
+    def test_projection_normalizes_missing_values_and_rejects_bad_retained_types(self):
+        self.assertEqual(reduced_card({"id": " a ", "name": " A "}), {
+            "id": "a", "name": "A", "subtypes": "[]", "card_text": "", "flavor": "", "artist": "", "image_url": None,
+        })
+        for fields in ({"subtypes": "Merfolk"}, {"subtypes": ["Merfolk", 5]}, {"flavor": 5}):
+            with self.subTest(fields=fields), self.assertRaises(ValueError):
+                reduced_card({"id": "a", "name": "A", **fields})
+
+    def test_legacy_and_extra_final_columns_require_reprocessing(self):
+        hdfs, spark = Mock(), Mock()
+        hdfs.root = "/mtg"
+        with patch("scripts.process_cards.Hdfs", return_value=hdfs):
+            hdfs.read.return_value = json.dumps({"export_columns": list(COLUMNS)}).encode()
+            with self.assertRaisesRegex(ValueError, "run transform again"):
+                final_data(spark, "old")
+            spark.read.parquet.assert_not_called()
+            hdfs.read.return_value = json.dumps({"schema_version": 2, "export_columns": list(COLUMNS)}).encode()
+            spark.read.parquet.return_value.columns = list(COLUMNS) + ["source_json"]
+            with self.assertRaisesRegex(ValueError, "exactly the seven"):
+                final_data(spark, "extra")
+
+    def test_database_schema_check_never_drops_legacy_columns(self):
+        connection = MagicMock()
+        cursor = connection.cursor.return_value.__enter__.return_value
+        cursor.fetchall.return_value = [(name,) for name in ("id", "name", "source_json")]
+        with self.assertRaisesRegex(ValueError, "backed-up migration"):
+            ensure_schema(connection)
+        statements = [call.args[0] for call in cursor.execute.call_args_list]
+        self.assertFalse(any(statement.startswith(("ALTER", "DROP", "DELETE")) for statement in statements))
+
     def test_quality_report_calculates_percentages_for_each_run(self):
-        evidence = Path(__file__).resolve().parents[1] / "docs/nachweise/daten"
+        evidence = Path(__file__).resolve().parent / "fixtures"
         summary = json.loads((evidence / "final_summary.json").read_text(encoding="utf-8"))
         database = json.loads((evidence / "database_summary.json").read_text(encoding="utf-8"))
         with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {"WORK_DIR": directory}):
@@ -61,15 +100,16 @@ class CoreTests(unittest.TestCase):
         for unsafe in (None, "", "javascript:alert(1)", "http://127.0.0.1/admin", "https://user:password@gatherer.wizards.com/card"):
             self.assertIsNone(normalize_image_url(unsafe))
 
-    def test_quality_counts_missing_values_and_distinguishes_type_conversion(self):
+    def test_quality_counts_missing_values_and_subtype_arrays(self):
         fields = {name: Counter() for name in FIELDS}
         changes = Counter()
-        inspect_card({"id": " a ", "name": " A ", "multiverseid": "123"}, fields, changes,
+        inspect_card({"id": " a ", "name": " A ", "subtypes": ["Merfolk"]}, fields, changes,
                      Counter(), Counter(), Counter(), {"image_examples": []})
         self.assertEqual(changes["id_trimmed"], 1)
         self.assertEqual(changes["missing_text_to_empty"], 1)
-        self.assertEqual(changes["multiverseid_string_to_integer"], 1)
-        self.assertEqual(changes["multiverseid_invalid_to_null"], 0)
+        self.assertEqual(changes["missing_flavor_to_empty"], 1)
+        self.assertEqual(fields["subtypes"]["arrays"], 1)
+        self.assertEqual(fields["subtypes"]["non_string"], 0)
         self.assertEqual(changes["rows_with_value_cleaning"], 1)
 
     def test_raw_audit_rejects_modified_hdfs_bytes(self):

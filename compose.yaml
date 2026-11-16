@@ -13,7 +13,7 @@ x-app: &app
     AIRFLOW__LOGGING__BASE_LOG_FOLDER: /opt/airflow/metadata/logs
     AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_WEBSERVER_SECRET_KEY:?Run configure.py first}
     AIRFLOW__WEBSERVER__EXPOSE_CONFIG: 'false'
-    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'false'
   volumes:
     - work:/opt/mtg/work
     - airflow:/opt/airflow/metadata
